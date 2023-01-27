@@ -1,0 +1,22 @@
+cli:
+  - "cli/**/*"
+
+dist:
+  - "dist/**/*"
+
+types:
+  - "types/**/*"
+
+package: 
+  - "package.json"
+
+cicd:
+  - ".github/**/*"
+
+wip:
+  - "**/*"
+  
+md:
+  - "README.md"
+  - "CODEOFCONDUCT.md"
+  - "CONTRIBUTING.md"

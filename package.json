@@ -1,0 +1,44 @@
+{
+  "name": "anotherback",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "author": "mathcovax",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anotherback/anotherback"
+  },
+  "dependencies": {
+    "@fastify/cookie": "^8.3.0",
+    "@fastify/cors": "^8.2.0",
+    "fastify": "^4.11.0",
+    "jsonwebtoken": "^9.0.0",
+    "watcher": "^2.2.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./cli": {
+      "import": "./cli/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./types/dist/index.d.ts"
+      ],
+      "cli": [
+        "./types/cli/index.d.ts"
+      ]
+    }
+  },
+  "bin": {
+    "aob": "./cli/bin/index.js"
+  }
+}
