@@ -68,133 +68,140 @@ export default class Tool{
     }
 
     otherAccess(name){
-        return Anotherback.snack.accesses[name](this.req, this.res, this.box.access);
+        return Anotherback.snack.accesses[name](this.req, this.res, this.accessBox);
     }
 
     otherChecker(name){
-        return Anotherback.snack.checkers[name](this.req, this.res, this.box.checker);
+        return Anotherback.snack.checkers[name](this.req, this.res, this.checkerBox);
     }
 
     req = undefined;
     res = undefined;
 
-    get box(){
+    get accessBox(){
         const that = this;
 
         return {
-            access: {
-                get otherAccess(){
-                    return (...args) => that.otherAccess(...args);
-                },
-                get e(){
-                    return (...args) => that.error(...args);
-                },
-                get r(){
-                    return (...args) => that.redirect(...args);
-                },
-                get t(){
-                    return that.token;
-                },
-                get status(){
-                    return that.status;
-                },
-                set status(arg){
-                    that.status = arg;
-                },
-                get info(){
-                    return that.info;
-                },
-                set info(arg){
-                    that.info = arg;
-                },
-                get data(){
-                    return (...args) => that.data(...args);
-                },
-                get pass(){
-                    return (...args) => that.pass(...args);
-                },
-                get method(){
-                    return (...args) => that.method(...args);
-                },
-                get box(){
-                    return that;
-                } 
+            get otherAccess(){
+                return (...args) => that.otherAccess(...args);
             },
-            checker: {
-                get otherChecker(){
-                    return (...args) => that.otherChecker(...args);
-                },
-                get e(){
-                    return (...args) => that.error(...args);
-                },
-                get t(){
-                    return that.token;
-                },
-                get status(){
-                    return that.status;
-                },
-                set status(arg){
-                    that.status = arg;
-                },
-                get info(){
-                    return that.info;
-                },
-                set info(arg){
-                    that.info = arg;
-                },
-                get data(){
-                    return (...args) => that.data(...args);
-                },
-                get pass(){
-                    return (...args) => that.pass(...args);
-                },
-                get method(){
-                    return (...args) => that.method(...args);
-                },
-                get box(){
-                    return that;
-                }
+            get e(){
+                return (...args) => that.error(...args);
             },
-            request: {
-                get s(){
-                    return (...args) => that.successful(...args);
-                },
-                get e(){
-                    return (...args) => that.error(...args);
-                },
-                get r(){
-                    return (...args) => that.redirect(...args);
-                },
-                get t(){
-                    return that.token;
-                },
-                get status(){
-                    return that.status;
-                },
-                set status(arg){
-                    that.status = arg;
-                },
-                get info(){
-                    return that.info;
-                },
-                set info(arg){
-                    that.info = arg;
-                },
-                get data(){
-                    return (...args) => that.data(...args);
-                },
-                get pass(){
-                    return (...args) => that.pass(...args);
-                },
-                get method(){
-                    return (...args) => that.method(...args);
-                },
-                get box(){
-                    return that;
-                }
+            get r(){
+                return (...args) => that.redirect(...args);
             },
+            get t(){
+                return that.token;
+            },
+            get status(){
+                return that.status;
+            },
+            set status(arg){
+                that.status = arg;
+            },
+            get info(){
+                return that.info;
+            },
+            set info(arg){
+                that.info = arg;
+            },
+            get data(){
+                return (...args) => that.data(...args);
+            },
+            get pass(){
+                return (...args) => that.pass(...args);
+            },
+            get method(){
+                return (...args) => that.method(...args);
+            },
+            get box(){
+                return that;
+            } 
+        }
+    }
 
-        };
+    get checkerBox(){
+        const that = this;
+
+        return {
+            get otherChecker(){
+                return (...args) => that.otherChecker(...args);
+            },
+            get e(){
+                return (...args) => that.error(...args);
+            },
+            get t(){
+                return that.token;
+            },
+            get status(){
+                return that.status;
+            },
+            set status(arg){
+                that.status = arg;
+            },
+            get info(){
+                return that.info;
+            },
+            set info(arg){
+                that.info = arg;
+            },
+            get data(){
+                return (...args) => that.data(...args);
+            },
+            get pass(){
+                return (...args) => that.pass(...args);
+            },
+            get method(){
+                return (...args) => that.method(...args);
+            },
+            get box(){
+                return that;
+            }
+        }
+    }
+
+    get requestBox(){
+        const that = this;
+
+        return {
+            get s(){
+                return (...args) => that.successful(...args);
+            },
+            get e(){
+                return (...args) => that.error(...args);
+            },
+            get r(){
+                return (...args) => that.redirect(...args);
+            },
+            get t(){
+                return that.token;
+            },
+            get status(){
+                return that.status;
+            },
+            set status(arg){
+                that.status = arg;
+            },
+            get info(){
+                return that.info;
+            },
+            set info(arg){
+                that.info = arg;
+            },
+            get data(){
+                return (...args) => that.data(...args);
+            },
+            get pass(){
+                return (...args) => that.pass(...args);
+            },
+            get method(){
+                return (...args) => that.method(...args);
+            },
+            get box(){
+                return that;
+            }
+        }
     }
 
     static #methods = {};

@@ -30,21 +30,21 @@ export default class Route{
                 async handler(req, res){
                     const tools = new Tool(req, res);
                     switch (await (async () => {
-                        let regAccessResult = await params.regAccess(req, res, tools.box.access);
+                        let regAccessResult = await params.regAccess(req, res, tools.accessBox);
                         if(regAccessResult !== true)return regAccessResult;
 
-                        let accessResult = await params.access(req, res, tools.box.access);
+                        let accessResult = await params.access(req, res, tools.accessBox);
                         if(accessResult !== true)return accessResult;
                         
                         for(const checker of params.checkers){
-                            let checkerResult = await checker(req, res, tools.box.checker);
+                            let checkerResult = await checker(req, res, tools.checkerBox);
                             if(checkerResult !== true)return checkerResult;
                         }
 
                         return true;
                     })()) {
                         case true:
-                            await fnc(req, res, tools.box.request);
+                            await fnc(req, res, tools.requestBox);
                             break;
                     
                         case false:
