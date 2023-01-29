@@ -82,6 +82,6 @@ export default class EventAOB{
     };
 }
 
-for(const plugin of config.plugins){
+for(const plugin of config.plugins || []){
     await plugin((...args) => EventAOB.on(...args));
 }
