@@ -21,6 +21,7 @@ Si vous souhaitez contribuer au code du projet, voici les étapes à suivre :
 5. Créez une nouvelle Pull Request
 
 ## Fonctionnement des branches
+
 `main` ==> code stable, testé, validé et publier sur npm.
 
 `develop` ==> créée à partir de main, c'est sur cette branche que nous apportons des modifications et que nous les testons.
@@ -38,6 +39,7 @@ Si vous souhaitez contribuer au code du projet, voici les étapes à suivre :
 ## Fonctionnement des pull requests
 
 En direction de la branche develop:
+
 `[break] Titre` ==> pull request contenant des nouvelles fonctionnalités.
 
 `[feat] Titre` ==> pull request contenant des nouvelles fonctionnalités.
