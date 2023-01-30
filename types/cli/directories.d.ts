@@ -44,14 +44,14 @@ export class Files{
     static readonly extname: Extname;
 }
 
-class Extname{
-    static access = ".js";
+declare class Extname{
+    static access: string;
 
-    static rigister = ".js";
+    static rigister: string;
 
-    static import = ".js";
+    static import: string;
 
-    static checker = ".js";
+    static checker: string;
 
-    static method = ".js";
+    static method: string;
 }

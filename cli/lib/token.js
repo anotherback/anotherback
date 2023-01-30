@@ -1,3 +1,3 @@
 export default function token(obj){
-    return obj;
+	return obj;
 }

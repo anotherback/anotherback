@@ -1,0 +1,30 @@
+{
+	"env": {
+		"browser": true,
+		"es2021": true
+	},
+	"overrides": [
+	],
+	"parserOptions": {
+		"ecmaVersion": "latest",
+		"sourceType": "module"
+	},
+	"rules": {
+		"eol-last": ["error", "always"],
+		"semi": ["error", "always"],
+		"no-extra-semi": "error",
+		"quotes": ["error", "double"],
+		"indent": ["error", "tab"],
+		"max-len": ["error", 130],
+		"object-curly-newline": [
+			"error", 
+			{
+				"ObjectExpression": { 
+					"consistent": true, 
+					"multiline": true, 
+					"minProperties": 4 
+				}
+			}
+		]
+	}
+}
