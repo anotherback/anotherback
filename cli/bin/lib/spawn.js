@@ -4,7 +4,7 @@ import checker from "./launch/checker.js";
 import register from "./launch/register.js";
 import token from "./launch/token.js";
 import imp from "./launch/import.js";
-import method from "./launch/method.js"
+import method from "./launch/method.js";
 import { Directories, Models, Files } from "../../directories.js";
 const config = (await import("file://" + Files.config)).default;
 import Event, { Dir } from "./plugins.js";
@@ -16,10 +16,10 @@ await Anotherback.fastifyRegister(config.fastifyRegister);
 
 await imp();
 await Promise.all([
-    access(),
-    checker(),
-    token(),
-    method(),
+	access(),
+	checker(),
+	token(),
+	method(),
 ]);
 await register();
 

@@ -40,5 +40,8 @@
   },
   "bin": {
     "aob": "./cli/bin/index.js"
+  },
+  "devDependencies": {
+    "eslint": "^8.33.0"
   }
 }

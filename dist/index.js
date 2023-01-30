@@ -3,7 +3,7 @@ import Token from "./lib/token.js";
 import Tool from "./lib/tool.js";
 
 export {
-    Anotherback,
-    Token, 
-    Tool
-}
+	Anotherback,
+	Token,
+	Tool
+};

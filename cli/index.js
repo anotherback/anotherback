@@ -9,14 +9,14 @@ import { Directories, Models, Files } from "./directories.js";
 
 
 export {
-    access,
-    checker,
-    config,
-    register,
-    token,
-    registerOptions,
-    method,
-    Directories,
-    Models,
-    Files,
-}
+	access,
+	checker,
+	config,
+	register,
+	token,
+	registerOptions,
+	method,
+	Directories,
+	Models,
+	Files,
+};

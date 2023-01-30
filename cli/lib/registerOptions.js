@@ -1,3 +1,3 @@
 export default function registerOptions(obj){
-    return obj;
+	return obj;
 }
