@@ -60,6 +60,8 @@ Les pull requests ont par défaut le label "wip". Retirez le si vous voulez qu'e
 
 Assurez-vous de respecter le style de code existant et de documenter vos modifications si nécessaire. N'oubliez pas de tester vos modifications avant de les soumettre.
 
+:warning: Faites attention de bien faire correspondre le nom de la PR et celui du commit du squash and merge. :warning:
+
 ## Règles de contribution
 
 En soumettant une contribution à ce projet, vous acceptez de rendre votre travail disponible sous la licence du projet.
