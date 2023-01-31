@@ -24,35 +24,25 @@ export default class Route{
 		};
 
 		return fnc => {
-			this.#app.route({
-				url: params.path,
-				method: params.method,
-				async handler(req, res){
-					const tools = new Tool(req, res);
-					switch (await (async () => {
-						let regAccessResult = await params.regAccess(req, res, tools.accessBox);
-						if(regAccessResult !== true)return regAccessResult;
+			this.#app.route(
+				{
+					url: params.path,
+					method: params.method,
+					async handler(req, res){
+						const tools = new Tool(req, res);
 
-						let accessResult = await params.access(req, res, tools.accessBox);
-						if(accessResult !== true)return accessResult;
+						if(await params.regAccess(req, res, tools.accessBox) !== true)return;
+
+						if(await params.access(req, res, tools.accessBox) !== true)return;
 
 						for(const checker of params.checkers){
-							let checkerResult = await checker(req, res, tools.checkerBox);
-							if(checkerResult !== true)return checkerResult;
+							if(await checker(req, res, tools.checkerBox) !== true)return;
 						}
 
-						return true;
-					})()) {
-					case true:
 						await fnc(req, res, tools.requestBox);
-						break;
-
-					case false:
-						res.status(403).send("forbidden");
-						break;
 					}
 				}
-			});
+			);
 		};
 	}
 

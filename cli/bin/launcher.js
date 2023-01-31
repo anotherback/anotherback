@@ -34,16 +34,44 @@ class child{
 initDir();
 
 new Watcher(Directories.access, {recursive: true, ignoreInitial: true})
-	.on("add", path=>{if(fs.readFileSync(path, "utf-8") === "")Models.rw.access=path;});
+	.on("add", path => {
+		if(
+			fs.readFileSync(path, "utf-8") === "" &&
+			path.endsWith(Files.extname.access)
+		)Models.rw.access = path;
+	});
 
 new Watcher(Directories.checker, {recursive: true, ignoreInitial: true})
-	.on("add", path=>{if(fs.readFileSync(path, "utf-8") === "")Models.rw.checker=path;});
+	.on("add", path => {
+		if(
+			fs.readFileSync(path, "utf-8") === "" &&
+			path.endsWith(Files.extname.checker)
+		)Models.rw.checker = path;
+	});
 
 new Watcher(Directories.register, {recursive: true, ignoreInitial: true})
-	.on("add", path=>{if(fs.readFileSync(path, "utf-8") === "")Models.rw.register=path;});
+	.on("add", path => {
+		if(
+			fs.readFileSync(path, "utf-8") === "" &&
+			path.endsWith(Files.extname.register)
+		)Models.rw.register = path;
+	});
 
 new Watcher(Directories.method, {recursive: true, ignoreInitial: true})
-	.on("add", path=>{if(fs.readFileSync(path, "utf-8") === "")Models.rw.method=path;});
+	.on("add", path => {
+		if(
+			fs.readFileSync(path, "utf-8") === "" &&
+			path.endsWith(Files.extname.method)
+		)Models.rw.method = path;
+	});
+
+new Watcher(Directories.sender, {recursive: true, ignoreInitial: true})
+	.on("add", path => {
+		if(
+			fs.readFileSync(path, "utf-8") === "" &&
+			path.endsWith(Files.extname.sender)
+		)Models.rw.sender = path;
+	});
 
 await Event.launch("initDir");
 

@@ -17,44 +17,55 @@ export default function initDir(){
 	if(!fs.existsSync(Directories.access))fs.mkdirSync(Directories.access);
 	find(
 		Directories.access,
-		path=>{
+		path => {
 			if(
 				fs.readFileSync(path, "utf-8") === "" &&
 				path.endsWith(Files.extname.access)
-			)Models.rw.access=path;
+			)Models.rw.access = path;
 		}
 	);
 
 	if(!fs.existsSync(Directories.checker))fs.mkdirSync(Directories.checker);
 	find(
 		Directories.checker,
-		path=>{
+		path => {
 			if(
 				fs.readFileSync(path, "utf-8") === "" &&
 				path.endsWith(Files.extname.checker)
-			)Models.rw.checker=path;
+			)Models.rw.checker = path;
 		}
 	);
 
 	if(!fs.existsSync(Directories.register))fs.mkdirSync(Directories.register);
 	find(
 		Directories.register,
-		path=>{
+		path => {
 			if(
 				fs.readFileSync(path, "utf-8") === "" &&
-				path.endsWith(Files.extname.rigister)
-			)Models.rw.register=path;
+				path.endsWith(Files.extname.register)
+			)Models.rw.register = path;
 		}
 	);
 
 	if(!fs.existsSync(Directories.method))fs.mkdirSync(Directories.method);
 	find(
 		Directories.method,
-		path=>{
+		path => {
 			if(
 				fs.readFileSync(path, "utf-8") === "" &&
 				path.endsWith(Files.extname.method)
-			)Models.rw.method=path;
+			)Models.rw.method = path;
+		}
+	);
+
+	if(!fs.existsSync(Directories.sender))fs.mkdirSync(Directories.sender);
+	find(
+		Directories.sender,
+		path => {
+			if(
+				fs.readFileSync(path, "utf-8") === "" &&
+				path.endsWith(Files.extname.sender)
+			)Models.rw.method = path;
 		}
 	);
 }

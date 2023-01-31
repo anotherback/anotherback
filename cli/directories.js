@@ -18,6 +18,8 @@ export class Models{
 
 	static method = this.main + "/method.js";
 
+	static sender = this.main + "/sender.js";
+
 	static get config(){
 		return this.main + "/aob.config.js";
 	}
@@ -83,6 +85,16 @@ export class Models{
 				}catch{}
 				fs.writeFileSync(arg, this.method);
 			}
+
+			static get sender(){
+				return fs.readFileSync(Models.sender, "utf-8");
+			}
+			static set sender(arg){
+				try{
+					fs.mkdirSync(arg.split("/").slice(0, -1).join("/"), {recursive: true});
+				}catch{}
+				fs.writeFileSync(arg, this.sender);
+			}
 		};
 	}
 }
@@ -121,6 +133,11 @@ export class Directories{
 	static get method(){
 		return resolve(this.workdir, this.name_method);
 	}
+
+	static name_sender = "sender";
+	static get sender(){
+		return resolve(this.workdir, this.name_sender);
+	}
 }
 
 export class Files{
@@ -140,11 +157,13 @@ export class Files{
 class Extname{
 	static access = ".js";
 
-	static rigister = ".js";
+	static register = ".js";
 
 	static import = ".js";
 
 	static checker = ".js";
 
 	static method = ".js";
+
+	static sender = ".js";
 }
