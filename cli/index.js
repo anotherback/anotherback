@@ -5,6 +5,7 @@ import register from "./lib/register.js";
 import token from "./lib/token.js";
 import registerOptions from "./lib/registerOptions.js";
 import method from "./lib/method.js";
+import sender from "./lib/sender.js";
 import { Directories, Models, Files } from "./directories.js";
 
 
@@ -16,6 +17,7 @@ export {
 	token,
 	registerOptions,
 	method,
+	sender,
 	Directories,
 	Models,
 	Files,

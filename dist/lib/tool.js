@@ -52,6 +52,10 @@ export default class Tool{
 		return Tool.methods[name](this.req, this.res, this, ...args);
 	}
 
+	sender(name, ...args){
+		Tool.senders[name](this.res, this, ...args);
+	}
+
 	status = 200;
 	info = undefined;
 	#data = {};
@@ -115,6 +119,9 @@ export default class Tool{
 			get method(){
 				return (...args) => that.method(...args);
 			},
+			get sender(){
+				return (...args) => that.sender(...args);
+			},
 			get box(){
 				return that;
 			}
@@ -154,6 +161,9 @@ export default class Tool{
 			},
 			get method(){
 				return (...args) => that.method(...args);
+			},
+			get sender(){
+				return (...args) => that.sender(...args);
 			},
 			get box(){
 				return that;
@@ -198,6 +208,9 @@ export default class Tool{
 			get method(){
 				return (...args) => that.method(...args);
 			},
+			get sender(){
+				return (...args) => that.sender(...args);
+			},
 			get box(){
 				return that;
 			}
@@ -211,5 +224,14 @@ export default class Tool{
 	static addMethod(name, fnc){
 		if(typeof fnc !== "function")throw new Error("");
 		this.#methods[name] = fnc;
+	}
+
+	static #senders = {};
+	static get senders(){
+		return this.#senders;
+	}
+	static addSender(name, fnc){
+		if(typeof fnc !== "function")throw new Error("");
+		this.#senders[name] = fnc;
 	}
 }

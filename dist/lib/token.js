@@ -36,8 +36,6 @@ export default class Token {
 	static get keys(){
 		return Keys;
 	}
-
-
 }
 
 export class Keys {
