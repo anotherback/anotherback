@@ -16,10 +16,10 @@ export default class Token {
 
     static refresh(token: string, nameKey: string): string;
 
-    static readonly keys = Keys;
+    static get keys(): Keys;
 }
 
-class Keys{
+declare class Keys{
     static create(name: string, key: string, options: optionsCreateKeys): void;
 
     static get(name: string): object;
