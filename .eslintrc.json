@@ -14,8 +14,7 @@
 		"semi": ["error", "always"],
 		"no-extra-semi": "error",
 		"quotes": ["error", "double"],
-		"indent": ["error", "tab"],
-		"max-len": ["error", 130],
+		"indent": ["error", "tab", { "MemberExpression": 0 }],
 		"object-curly-newline": [
 			"error", 
 			{
