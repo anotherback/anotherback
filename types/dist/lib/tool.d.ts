@@ -28,7 +28,7 @@ export default class Tool {
 
     data(key: string | undefined, value: any): any;
 
-    pass(key: string | undefined, value: any): any;
+    pass(key: string | undefined | null, value: any): any;
 
     otherAccess(name: string): (false | undefined | true) | Promise<(false | undefined | true)>;
 
