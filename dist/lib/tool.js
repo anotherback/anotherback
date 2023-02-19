@@ -67,8 +67,12 @@ export default class Tool{
 	#pass = {};
 	pass(key, value){
 		if(key === undefined)return this.#pass;
+		else if(typeof key === "object"){
+			this.#pass = {...this.#pass, ...value};
+			return;
+		}
 		else if(value === undefined)return this.#pass[key];
-		this.#pass[key] = value;
+		else this.#pass[key] = value;
 	}
 
 	otherAccess(name){
