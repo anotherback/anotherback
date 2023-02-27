@@ -14,7 +14,26 @@
 		"semi": ["error", "always"],
 		"no-extra-semi": "error",
 		"quotes": ["error", "double"],
-		"indent": ["error", "tab", { "MemberExpression": 0 }],
+		"indent": [
+			"error", 
+			"tab", 
+			{ 
+				"MemberExpression": 0,	
+				"ObjectExpression": 1,
+				"ArrayExpression": 1,
+				"ImportDeclaration": 1,
+				"CallExpression": { 
+					"arguments": 1 
+				}, 
+				"FunctionDeclaration": { 
+					"parameters": 1 
+				}, 
+				"FunctionExpression": { 
+					"parameters": 1 
+				}, 
+				"SwitchCase": 1
+			}
+		],
 		"object-curly-newline": [
 			"error", 
 			{
@@ -24,6 +43,13 @@
 					"minProperties": 4 
 				}
 			}
-		]
+		],
+		"object-curly-spacing": ["error", "never"],
+		"array-bracket-newline": ["error", { "multiline": true, "minItems": 3}],
+		"array-bracket-spacing": ["error", "never"],
+		"array-element-newline": ["error", "consistent"],
+		"comma-spacing": ["error", { "before": false, "after": true }],
+		"comma-style": ["error", "last"],
+		"no-array-constructor": "error"
 	}
 }

@@ -1,7 +1,7 @@
-import { Anotherback } from "../../../../dist/index.js";
-import { Directories, Files } from "../../../directories.js";
+import {Anotherback} from "../../../../dist/index.js";
+import {Directories, Files} from "../../../directories.js";
 import fs from "fs";
-import { resolve } from "path";
+import {resolve} from "path";
 
 export default async function register(){
 	let arr = [];

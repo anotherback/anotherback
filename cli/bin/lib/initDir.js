@@ -1,6 +1,6 @@
 import fs from "fs";
-import { Directories, Files, Models } from "../../directories.js";
-import { resolve } from "path";
+import {Directories, Files, Models} from "../../directories.js";
+import {resolve} from "path";
 
 function find(path, fnc){
 	for(const file of fs.readdirSync(path)){

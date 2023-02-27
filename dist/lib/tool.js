@@ -1,5 +1,5 @@
 import Anotherback from "./anotherback.js";
-import Token, { Keys } from "./token.js";
+import Token, {Keys} from "./token.js";
 
 export default class Tool{
 	constructor(req, res){

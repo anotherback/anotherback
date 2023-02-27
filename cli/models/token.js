@@ -1,4 +1,4 @@
-import { token } from "anotherback/cli";
+import {token} from "anotherback/cli";
 
 export default token(
 	[

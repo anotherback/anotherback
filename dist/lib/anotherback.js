@@ -32,7 +32,7 @@ export default class Anotherback{
 	}
 
 	static init(){
-		this.app.listen({ port: 80, ...this.#listenParams }, this.#listenCallback);
+		this.app.listen({port: 80, ...this.#listenParams}, this.#listenCallback);
 	}
 
 	static #listenParams = {};

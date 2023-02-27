@@ -1,5 +1,5 @@
-import { Directories, Files } from "../../directories.js";
-import { resolve } from "path";
+import {Directories, Files} from "../../directories.js";
+import {resolve} from "path";
 import fs from "fs";
 import Watcher from "watcher";
 const config = (await import("file://" + Files.config)).default;
@@ -38,11 +38,11 @@ export class Dir{
 			fs.mkdirSync(this.dirs[index].path, {recursive: true});
 
 			new Watcher(this.dirs[index].path, {recursive: true, ignoreInitial: true})
-				.on("add", path=>{
-					if(fs.readFileSync(path, "utf-8") === "" && path.endsWith(this.dirs[index].extName)){
-						fs.writeFileSync(path, this.dirs[index].model);
-					}
-				});
+			.on("add", path=>{
+				if(fs.readFileSync(path, "utf-8") === "" && path.endsWith(this.dirs[index].extName)){
+					fs.writeFileSync(path, this.dirs[index].model);
+				}
+			});
 		}
 	}
 

@@ -1,4 +1,4 @@
-import { sender } from "anotherback/cli";
+import {sender} from "anotherback/cli";
 
 export default sender(
 	(res, toolbox, ...args) => {

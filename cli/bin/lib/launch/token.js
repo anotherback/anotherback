@@ -1,5 +1,5 @@
-import { Token } from "../../../../dist/index.js";
-import { Files } from "../../../directories.js";
+import {Token} from "../../../../dist/index.js";
+import {Files} from "../../../directories.js";
 
 export default async function token(){
 	const tokens = (await import("file://" + Files.token)).default;

@@ -1,5 +1,5 @@
-import { dirname, resolve } from "path";
-import { fileURLToPath } from "url";
+import {dirname, resolve} from "path";
+import {fileURLToPath} from "url";
 import fs from "fs";
 
 export class Models{
