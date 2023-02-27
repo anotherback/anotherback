@@ -67,7 +67,6 @@ jobs:
           rm .gitignore
           rm CODEOFCONDUCT.md
           rm CONTRIBUTING.md
-          rm README.md
 
       - name: Publish to NPM
         run: npm publish
