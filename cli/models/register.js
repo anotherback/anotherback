@@ -1,4 +1,4 @@
-import { register, registerOptions } from "anotherback/cli";
+import {register, registerOptions} from "anotherback/cli";
 
 export const options = registerOptions(
 	{

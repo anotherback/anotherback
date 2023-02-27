@@ -1,4 +1,4 @@
-import { config, Directories, Models, Files } from "anotherback/cli";
+import {config, Directories, Models, Files} from "anotherback/cli";
 
 export default config(
 	{

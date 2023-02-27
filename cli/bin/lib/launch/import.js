@@ -1,5 +1,5 @@
-import { Directories, Files } from "../../../directories.js";
-import { resolve } from "path";
+import {Directories, Files} from "../../../directories.js";
+import {resolve} from "path";
 import fs from "fs";
 
 export default async function imp(){
