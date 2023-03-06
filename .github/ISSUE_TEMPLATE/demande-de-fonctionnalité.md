@@ -1,7 +1,7 @@
 ---
 name: Demande de fonctionnalité
 about: Suggérer une idée pour ce projet
-title: '[feature]'
+title: '[feat]'
 labels: enhancement
 assignees: ''
 ---

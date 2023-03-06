@@ -1,21 +1,21 @@
-import { token } from "anotherback/cli";
+import {token} from "anotherback/cli";
 
 export default token(
-    [
-        {
-            name: "myToken",
-            key: "secret",
-            options: {
-                generate: {
-                    expiresIn: "3h",
-                },
-                verify: {
+	[
+		{
+			name: "myToken",
+			key: "secret",
+			options: {
+				generate: {
+					expiresIn: "3h",
+				},
+				verify: {
 
-                },
-                cookie: {
-                    httpOnly: false,
-                },
-            }
-        },
-    ]
+				},
+				cookie: {
+					httpOnly: false,
+				},
+			}
+		},
+	]
 );

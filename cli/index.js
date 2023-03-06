@@ -5,18 +5,20 @@ import register from "./lib/register.js";
 import token from "./lib/token.js";
 import registerOptions from "./lib/registerOptions.js";
 import method from "./lib/method.js";
-import { Directories, Models, Files } from "./directories.js";
+import sender from "./lib/sender.js";
+import {Directories, Models, Files} from "./directories.js";
 
 
 export {
-    access,
-    checker,
-    config,
-    register,
-    token,
-    registerOptions,
-    method,
-    Directories,
-    Models,
-    Files,
-}
+	access,
+	checker,
+	config,
+	register,
+	token,
+	registerOptions,
+	method,
+	sender,
+	Directories,
+	Models,
+	Files,
+};

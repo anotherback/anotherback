@@ -4,11 +4,11 @@
         "color": "f00020"
     },
     "CHECKS": {
-      "prefixes": ["[fix]", "[feat]", "[breack]", "[gitflow]", "[md]"]
+      "prefixes": ["[fix]", "[feat]", "[break]", "[gitflow]", "[md]"]
     },
     "MESSAGES": {
       "success": "All OK",
       "failure": "Failing CI test",
-      "notice": "Only prefix \"[fix]\", \"[feat]\", \"[breack]\", \"[gitflow]\" and \"[md]\" is accepted."
+      "notice": "Only prefix \"[fix]\", \"[feat]\", \"[break]\", \"[gitflow]\" and \"[md]\" is accepted."
     }
 }

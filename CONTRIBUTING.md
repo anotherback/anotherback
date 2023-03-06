@@ -21,6 +21,7 @@ Si vous souhaitez contribuer au code du projet, voici les étapes à suivre :
 5. Créez une nouvelle Pull Request
 
 ## Fonctionnement des branches
+
 `main` ==> code stable, testé, validé et publier sur npm.
 
 `develop` ==> créée à partir de main, c'est sur cette branche que nous apportons des modifications et que nous les testons.
@@ -38,6 +39,7 @@ Si vous souhaitez contribuer au code du projet, voici les étapes à suivre :
 ## Fonctionnement des pull requests
 
 En direction de la branche develop:
+
 `[break] Titre` ==> pull request contenant des nouvelles fonctionnalités.
 
 `[feat] Titre` ==> pull request contenant des nouvelles fonctionnalités.
@@ -57,6 +59,8 @@ En direction de la branche main:
 Les pull requests ont par défaut le label "wip". Retirez le si vous voulez qu'elles soient vérifiées puis validées.
 
 Assurez-vous de respecter le style de code existant et de documenter vos modifications si nécessaire. N'oubliez pas de tester vos modifications avant de les soumettre.
+
+:warning: Faites attention de bien faire correspondre le nom de la PR et celui du commit du squash and merge. :warning:
 
 ## Règles de contribution
 

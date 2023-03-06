@@ -1,6 +1,7 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 
-export type addMethodfnc = (req: FastifyRequest, res: FastifyReply, toolBox: Tool, ...args: any) => any
+export type addMethodfnc = (req: FastifyRequest, res: FastifyReply, toolBox: Tool, ...args: any) => any;
+export type addSenderfnc = (res: FastifyReply, toolBox: Tool, ...args: any) => any;
 
 export default class Tool {
     successful(data: object): void;
@@ -19,13 +20,15 @@ export default class Tool {
 
     method(name: string, ...args: any): any | Promise<any>;
 
+    sender(name: string, ...args: any): any | Promise<any>;
+
     status: number;
 
     info: string;
 
     data(key: string | undefined, value: any): any;
 
-    pass(key: string | undefined, value: any): any;
+    pass(key: string | undefined | object, value: any): any;
 
     otherAccess(name: string): (false | undefined | true) | Promise<(false | undefined | true)>;
 
@@ -40,6 +43,8 @@ export default class Tool {
     }
 
     static addMethod(name: string, fnc: addMethodfnc): void;
+
+    static addSender(name: string, fnc: addSenderfnc): void;
 }
 
 interface def {
@@ -49,6 +54,7 @@ interface def {
     data: Tool["data"];
     pass: Tool["pass"];
     method: Tool["method"];
+    sender: Tool["sender"];
     box: Tool;
 }
 

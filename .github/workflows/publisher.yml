@@ -57,7 +57,17 @@ jobs:
       - name: set Version In package.json
         run: |
           sed -i 's/"version":.*".*"/"version": "'$(echo $VERSION)'"/' package.json
-    
+
+      - name: delete useless file
+        run: |
+          rm -rf .github
+          rm -rf .vscode
+          rm .editorconfig
+          rm .eslintrc.json
+          rm .gitignore
+          rm CODEOFCONDUCT.md
+          rm CONTRIBUTING.md
+
       - name: Publish to NPM
         run: npm publish
         env:

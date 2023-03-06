@@ -1,15 +1,15 @@
-import { register, registerOptions } from "anotherback/cli";
+import {register, registerOptions} from "anotherback/cli";
 
 export const options = registerOptions(
-    {
-        prefix: "",
-        access: "",
-        checkers: [],
-    }
+	{
+		prefix: "",
+		access: "",
+		checkers: [],
+	}
 );
 
 export default register(
-    (reg, hook) => {
+	(reg, hook) => {
 
-    }
+	}
 );

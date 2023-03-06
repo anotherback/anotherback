@@ -1,7 +1,7 @@
-import { checker } from "anotherback/cli";
+import {checker} from "anotherback/cli";
 
 export default checker(
-    (req, res, tools) => {
-        return true;
-    }
+	(req, res, tools) => {
+		return true;
+	}
 );
