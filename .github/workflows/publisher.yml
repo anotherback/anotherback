@@ -62,7 +62,6 @@ jobs:
         run: |
           rm -rf .github
           rm -rf .vscode
-          rm .editorconfig
           rm .eslintrc.json
           rm .gitignore
           rm CODEOFCONDUCT.md
