@@ -32,7 +32,7 @@ Si vous souhaitez contribuer au code du projet, voici les étapes à suivre :
 
 `fix/nom` ==> créée à partir de develop, elle corrige du code.
 
-`gitflow/nom` ==> créée à partir de develop, elle fait des modification de fichiers dans le dossier ".github".
+`github/nom` ==> créée à partir de develop, elle fait des modification de fichiers dans le dossier ".github".
 
 `md/nom` ==> créée à partir de develop, elle fait des modifications de fichiers ayant l'extension ".md".
 
@@ -46,13 +46,13 @@ En direction de la branche develop:
 
 `[fix] Titre` ==> pull request contenant des correction du code, qu'elle soit d'ordre de bug ou d'amélioration du code.
 
-`[gitflow] Titre` ==> pull request contenant des modification d'un fichier dans le dossier ".github".
+`[github] Titre` ==> pull request contenant des modification d'un fichier dans le dossier ".github".
 
 `[md] Titre` ==> pull request contenant des modification d'un fichier ayant l'extension ".md".
 
 En direction de la branche main:
 
-`[publish] Titre` ==> pull request contenant toutes les dernières modifications apportées à la branche develop pour en publier le contenu sur la branche main et aussi sur npm.
+`[publish]` ==> pull request contenant toutes les dernières modifications apportées à la branche develop pour en publier le contenu sur la branche main et aussi sur npm.
 
 `[update] Titre` ==> pull request pour mettre à jour la branche main par rapport à develop.
 
