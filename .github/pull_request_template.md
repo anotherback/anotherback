@@ -23,7 +23,7 @@ Sélectionnez les options qui s'appliquent :
 - [ ] Correction de bugs
 - [ ] Nouvelle fonctionnalité
 - [ ] Modification de documentation
-- [ ] Modification du gitflow
+- [ ] Modification du dans le dossier ".github"
 
 ## Checklist
 
