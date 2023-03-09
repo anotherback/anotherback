@@ -1,4 +1,4 @@
-declare class defaultContext {
+declare class DefaultContext {
 	sender(name: string, ...args: any): void;
 
 	method(name: string, ...args: any): any | Promise<any>;
@@ -14,15 +14,19 @@ declare class defaultContext {
 	pass(key: string | object | undefined, value: any): any;
 }
 
-export declare class AccessCtx extends defaultContext {
+export declare class AccessCtx extends DefaultContext {
 	otherAccess(name: string, launcher: string | undefined): (false | undefined | true) | Promise<(false | undefined | true)>;
 }
 
-export declare class CheckerCtx extends defaultContext{
+export declare class CheckerCtx extends DefaultContext {
 	otherChecker(name: string, launcher: string | undefined): (false | undefined | true) | Promise<(false | undefined | true)>;
 }
 
-export declare class SenderCtx{
+export declare class RequestCtx extends DefaultContext {
+
+}
+
+export declare class SenderCtx {
 	successful(): void;
 
     error(): void;

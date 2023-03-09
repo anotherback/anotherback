@@ -2,7 +2,7 @@ import { FastifyListenOptions, FastifyRequest, FastifyReply, HTTPMethods, Fastif
 import { FastifyInstance } from "fastify/types/instance"
 import { FastifyCookieOptions } from "@fastify/cookie";
 import { FastifyCorsOptions } from "@fastify/cors";
-import { AccessCtx, CheckerCtx, defaultContext, SenderCtx } from "./ctx";
+import { AccessCtx, CheckerCtx, RequestCtx, SenderCtx } from "./ctx";
 
 interface requestDescribe {
     method: HTTPMethods,
@@ -29,7 +29,7 @@ export type createCheckerObj<R> = {
 export type createCheckerFnc<R> = (this: CheckerCtx, ...args: R) => (boolean | undefined) | Promise<(boolean | undefined)>;
 
 export type register = (reg: reg, hook: FastifyInstance["addHook"]) => void;
-type reg = (obj: requestDescribe) => (fnc: (this: defaultContext, req: FastifyRequest, res: FastifyReply) => void) => void;
+type reg = (obj: requestDescribe) => (fnc: (this: RequestCtx, req: FastifyRequest, res: FastifyReply) => void) => void;
 
 export type fastifyRegister = (fastReg: FastifyRegister) => void;
 
