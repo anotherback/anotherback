@@ -8,20 +8,42 @@ export default class Anotherback{
 
 	static snack = {
 		accesses: {
-			"": () => true,
+			"": {
+				launchers: {default: () => []},
+				fnc: () => true
+			}
 		},
 
 		checkers: {
-
+			"": {
+				launchers: {default: () => []},
+				fnc: () => true
+			}
 		},
+
+		methods: {
+
+		}, 
+
+		senders: {
+
+		}
 	};
 
-	static createAccess(name, fnc){
-		this.snack.accesses[name] = fnc;
+	static createAccess(name, launchers, fnc){
+		this.snack.accesses[name] = {launchers, fnc};
 	}
 
-	static createChecker(name, fnc){
-		this.snack.checkers[name] = fnc;
+	static createChecker(name, launchers, fnc){
+		this.snack.checkers[name] = {launchers, fnc};
+	}
+
+	static createMethod(name, fnc){
+		this.snack.methods[name] = fnc;
+	}
+
+	static createSender(name, fnc){
+		this.snack.senders[name] = fnc;
 	}
 
 	static async register(fnc, options){

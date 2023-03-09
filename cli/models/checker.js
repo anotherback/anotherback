@@ -1,7 +1,10 @@
 import {checker} from "anotherback/cli";
 
 export default checker(
-	(req, res, tools) => {
+	{
+		default: req => [req]
+	},
+	function(req){
 		return true;
 	}
 );

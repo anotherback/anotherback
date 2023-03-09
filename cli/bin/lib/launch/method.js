@@ -1,4 +1,4 @@
-import {Tool} from "../../../../dist/index.js";
+import {Anotherback} from "../../../../dist/index.js";
 import {Directories, Files} from "../../../directories.js";
 import fs from "fs";
 import convertor from "../convertor.js";
@@ -12,7 +12,7 @@ export default async function method(){
 			if(file.endsWith(Files.extname.method))arr.push(fnc(resolve(path, file)));
 		}
 	})(Directories.method, async (path) => {
-		Tool.addMethod(convertor(path, "method"), (await import("file://" + path)).default);
+		Anotherback.createMethod(convertor(path, "method"), (await import("file://" + path)).default);
 	});
 	await Promise.all(arr);
 }

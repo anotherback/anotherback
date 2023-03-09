@@ -1,3 +1,3 @@
-export default function checker(fnc){
-	return fnc;
+export default function checker(obj, fnc){
+	return [obj, fnc];
 }

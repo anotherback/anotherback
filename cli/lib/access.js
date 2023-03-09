@@ -1,3 +1,3 @@
-export default function access(fnc){
-	return fnc;
+export default function access(obj, fnc){
+	return [obj, fnc];
 }

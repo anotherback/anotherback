@@ -1,7 +1,10 @@
 import {sender} from "anotherback/cli";
 
 export default sender(
-	(res, toolbox, ...args) => {
-		console.log(args);
+	function(res, ...args){
+		this.code(200);
+		this.info(args[0]);
+		this.data(args[1]);
+		this.successful();
 	}
 );
