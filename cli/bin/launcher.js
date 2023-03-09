@@ -1,11 +1,11 @@
 import Watcher from "watcher";
-import { Directories, Models, Files } from "../directories.js";
-import { spawn } from "child_process";
+import {Directories, Models, Files} from "../directories.js";
+import {spawn} from "child_process";
 import initDir from "./lib/initDir.js";
 import fs from "fs";
-import { dirname, resolve } from "path";
-import { fileURLToPath } from "url";
-import Event, { Dir } from "./lib/plugins.js";
+import {dirname, resolve} from "path";
+import {fileURLToPath} from "url";
+import Event, {Dir} from "./lib/plugins.js";
 
 await Event.launch("start", Directories, Models, Dir, Files);
 

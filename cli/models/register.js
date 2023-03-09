@@ -4,12 +4,11 @@ export const options = registerOptions(
 	{
 		prefix: "",
 		access: "",
-		checkers: [],
 	}
 );
 
 export default register(
-	(reg, hook) => {
+	function(reg, hook){
 
 	}
 );

@@ -1,3 +1,4 @@
-import { addSenderfnc } from "../../dist/lib/tool";
+import { createSenderFnc } from "../../dist/lib/anotherback";
 
-export default function sender(fnc: addSenderfnc): void;
+
+export default function sender(fnc: createSenderFnc): void;
