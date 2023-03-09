@@ -1,7 +1,10 @@
 import {access} from "anotherback/cli";
 
 export default access(
-	(req, res, tools) => {
+	{
+		default: req => [req]
+	},
+	function(req){
 		return true;
 	}
 );

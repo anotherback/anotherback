@@ -12,7 +12,8 @@ export default async function access(){
 			if(file.endsWith(Files.extname.access))arr.push(fnc(resolve(path, file)));
 		}
 	})(Directories.access, async (path) => {
-		Anotherback.createAccess(convertor(path, "access"), (await import("file://" + path)).default);
+		let imp = (await import("file://" + path)).default;
+		Anotherback.createAccess(convertor(path, "access"), imp[0], imp[1]);
 	});
 	await Promise.all(arr);
 }

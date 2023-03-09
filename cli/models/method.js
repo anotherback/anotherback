@@ -1,7 +1,8 @@
 import {method} from "anotherback/cli";
 
 export default method(
-	(req, res, toolbox, ...args) => {
+	function(...args){
 		console.log(args);
+		return false;
 	}
 );
