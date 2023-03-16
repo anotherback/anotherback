@@ -18,7 +18,7 @@ export default config(
 
 		},
 		listenCallback(err, address){
-			if(err)throw err;
+			if(err) throw err;
 			console.log("Ready !");
 		}
 	}

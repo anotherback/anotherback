@@ -5,7 +5,7 @@ import Watcher from "watcher";
 const config = (await import("file://" + Files.config)).default;
 
 export class Dir{
-	constructor(path="./"){
+	constructor(path = "./"){
 		this.#path = resolve(Directories.workdir, path);
 		Dir.dirs[this.path] = this;
 	}
@@ -20,14 +20,14 @@ export class Dir{
 		return this.#model;
 	}
 	set model(arg){
-		this.#model = fs.existsSync(arg)? fs.readFileSync(Models.checker, "utf-8") : arg;
+		this.#model = fs.existsSync(arg) ? fs.readFileSync(Models.checker, "utf-8") : arg;
 	}
 
 	extName = ".js";
 
 	findFnc = () => {};
 	find(fnc){
-		if(typeof fnc !== "function")throw new Error("");
+		if(typeof fnc !== "function") throw new Error("");
 		this.findFnc = fnc;
 	}
 
@@ -38,7 +38,7 @@ export class Dir{
 			fs.mkdirSync(this.dirs[index].path, {recursive: true});
 
 			new Watcher(this.dirs[index].path, {recursive: true, ignoreInitial: true})
-			.on("add", path=>{
+			.on("add", path => {
 				if(fs.readFileSync(path, "utf-8") === "" && path.endsWith(this.dirs[index].extName)){
 					fs.writeFileSync(path, this.dirs[index].model);
 				}
@@ -68,8 +68,8 @@ export default class EventAOB{
 	}
 
 	static on(name, fnc){
-		if(typeof fnc !== "function")throw new Error("");
-		if(this.events[name] === undefined)throw new Error("");
+		if(typeof fnc !== "function") throw new Error("");
+		if(this.events[name] === undefined) throw new Error("");
 		this.events[name].push(fnc);
 	}
 

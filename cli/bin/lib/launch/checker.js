@@ -11,7 +11,7 @@ export default async function checker(){
 			if(fs.lstatSync(resolve(path, file)).isDirectory()) find(resolve(path, file), fnc);
 			if(file.endsWith(Files.extname.checker))arr.push(fnc(resolve(path, file)));
 		}
-	})(Directories.checker, async (path) => {
+	})(Directories.checker, async(path) => {
 		let imp = (await import("file://" + path)).default;
 		Anotherback.createChecker(convertor(path, "checker"), imp[0], imp[1]);
 	});

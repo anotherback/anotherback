@@ -5,10 +5,10 @@ export class Pass{
 	state = {};
 
 	handler(key, value){
-		if(typeof key === "string" && value === undefined)return structuredClone(this.state[key]);
-		else if(typeof key === "string" && value !== undefined)this.state[key] = value;
-		else if(typeof key === "object" && value === undefined)this.state = {...this.state, ...key};
-		else if(key === undefined && value === undefined)return structuredClone(this.state);
+		if(typeof key === "string" && value === undefined) return structuredClone(this.state[key]);
+		else if(typeof key === "string" && value !== undefined) this.state[key] = value;
+		else if(typeof key === "object" && value === undefined) this.state = {...this.state, ...key};
+		else if(key === undefined && value === undefined) return structuredClone(this.state);
 	}
 }
 
@@ -26,7 +26,7 @@ export class AccessCtx{
 		return this.#pass.handler(key, value);
 	}
 
-	otherAccess(name, launcher="default"){
+	otherAccess(name, launcher = "default"){
 		return Anotherback.snack.accesses[name].fnc.call(this, ...Anotherback.snack.accesses[name].launchers[launcher](this.req));
 	}
 
@@ -67,7 +67,7 @@ export class CheckerCtx{
 		return this.#pass.handler(key, value);
 	}
 
-	otherChecker(name, launcher="default"){
+	otherChecker(name, launcher = "default"){
 		return Anotherback.snack.checkers[name].fnc.call(this, ...Anotherback.snack.checkers[name].launchers[launcher](this.req));
 	}
 
@@ -150,17 +150,17 @@ export class SenderCtx{
 	}
 
 	code(code){
-		if(code !== undefined)this.#code = code;
+		if(code !== undefined) this.#code = code;
 		else return this.#code;
 	}
 
 	info(info){
-		if(info !== undefined)this.#info = info;
+		if(info !== undefined) this.#info = info;
 		else return this.#info;
 	}
 
 	data(data){
-		if(data !== undefined)this.#data = data;
+		if(data !== undefined) this.#data = data;
 		else return this.#data;
 	}
 
@@ -210,17 +210,17 @@ export default class Ctx{
 	#request;
 
 	get access(){
-		if(this.#access === undefined)this.#access = new AccessCtx(this.req, this.res, this.pass);
+		if(this.#access === undefined) this.#access = new AccessCtx(this.req, this.res, this.pass);
 		return this.#access;
 	}
 
 	get checker(){
-		if(this.#checker === undefined)this.#checker = new CheckerCtx(this.req, this.res, this.pass);
+		if(this.#checker === undefined) this.#checker = new CheckerCtx(this.req, this.res, this.pass);
 		return this.#checker;
 	}
 
 	get request(){
-		if(this.#request === undefined)this.#request = new RequestCtx(this.req, this.res, this.pass);
+		if(this.#request === undefined) this.#request = new RequestCtx(this.req, this.res, this.pass);
 		return this.#request;
 	}
 }
@@ -252,21 +252,21 @@ function defaultConfig(context){
 					this.req.cookies[nameKey] = token;
 				},
 				verify: (nameKey) => {
-					if(!this.req.cookies[nameKey])return null;
+					if(!this.req.cookies[nameKey]) return null;
 					return Token.verify(this.req.cookies[nameKey], nameKey);
 				},
 				read: (nameKey) => {
-					if(!this.req.cookies[nameKey])return null;
+					if(!this.req.cookies[nameKey]) return null;
 					return Token.read(this.req.cookies[nameKey], nameKey);
 				},
 				refresh: (nameKey) => {
-					if(!this.req.cookies[nameKey])throw new Error("");
+					if(!this.req.cookies[nameKey]) throw new Error("");
 					let token = Token.refresh(this.req.cookies[nameKey], nameKey);
 					this.res.setCookie(nameKey, token, Keys.get(nameKey).options.cookie);
 					this.req.cookies[nameKey] = token;
 				},
 				delete: (nameKey) => {
-					if(!this.req.cookies[nameKey])throw new Error("");
+					if(!this.req.cookies[nameKey]) throw new Error("");
 					this.res.clearCookie(nameKey);
 					delete this.req.cookies[nameKey];
 				}

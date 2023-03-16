@@ -11,7 +11,7 @@ export default async function sender(){
 			if(fs.lstatSync(resolve(path, file)).isDirectory()) find(resolve(path, file), fnc);
 			if(file.endsWith(Files.extname.sender))arr.push(fnc(resolve(path, file)));
 		}
-	})(Directories.sender, async (path) => {
+	})(Directories.sender, async(path) => {
 		Anotherback.createSender(convertor(path, "sender"), (await import("file://" + path)).default);
 	});
 	await Promise.all(arr);

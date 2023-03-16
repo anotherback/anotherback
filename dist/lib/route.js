@@ -24,7 +24,7 @@ export default class Route{
 					let checkerName = checker.split("<")[0];
 					let ckeckerLauncher = checker.split("<")[1] || "default";
 
-					if(Anotherback.snack.checkers[checkerName] === undefined)continue;
+					if(Anotherback.snack.checkers[checkerName] === undefined) continue;
 
 					checkers.push({
 						launcher: Anotherback.snack.checkers[checkerName].launchers[ckeckerLauncher],
@@ -66,12 +66,12 @@ export default class Route{
 					async handler(req, res){
 						const ctx = new Ctx(req, res);
 
-						if(await params.regAccess.fnc.call(ctx.access, ...params.regAccess.launcher(req)) !== true)return;
+						if(await params.regAccess.fnc.call(ctx.access, ...params.regAccess.launcher(req)) !== true) return;
 
-						if(await params.access.fnc.call(ctx.access, ...params.access.launcher(req)) !== true)return;
+						if(await params.access.fnc.call(ctx.access, ...params.access.launcher(req)) !== true) return;
 
 						for(const checker of params.checkers){
-							if(await checker.fnc.call(ctx.checker, ...checker.launcher(req)) !== true)return;
+							if(await checker.fnc.call(ctx.checker, ...checker.launcher(req)) !== true) return;
 						}
 
 						await fnc.call(ctx.request, req, res);
