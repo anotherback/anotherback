@@ -47,7 +47,7 @@ export default class Anotherback{
 	}
 
 	static async register(fnc, options){
-		await this.app.register(async (app) => {
+		await this.app.register(async(app) => {
 			const route = new Route(app, options);
 			await fnc((...args) => route.register(...args), (...args) => this.app.addHook(...args));
 		});
@@ -62,12 +62,14 @@ export default class Anotherback{
 		return this.#listenParams;
 	}
 	static set listenParams(arg){
-		if(typeof arg !== "object")throw new Error("");
+		if(typeof arg !== "object") throw new Error("");
 		this.#listenParams = arg;
 	}
-	static #listenCallback = () => {console.log("ready");};
+	static #listenCallback = () => {
+		console.log("ready");
+	};
 	static listenCallback(fnc){
-		if(typeof fnc !== "function")throw new Error("");
+		if(typeof fnc !== "function") throw new Error("");
 		this.#listenCallback = fnc;
 	}
 
@@ -76,7 +78,7 @@ export default class Anotherback{
 		return this.#registerParamsCookie;
 	}
 	static set registerParamsCookie(arg){
-		if(typeof arg !== "object")throw new Error("");
+		if(typeof arg !== "object") throw new Error("");
 		this.#registerParamsCookie = arg;
 	}
 
@@ -85,7 +87,7 @@ export default class Anotherback{
 		return this.#registerParamsCors;
 	}
 	static set registerParamsCors(arg){
-		if(typeof arg !== "object")throw new Error("");
+		if(typeof arg !== "object") throw new Error("");
 		this.#registerParamsCors = arg;
 	}
 
@@ -96,7 +98,9 @@ export default class Anotherback{
 	static prefix = "";
 
 	static {
-		this.app.addHook("onError", (req, res, err) => {console.error(err);});
+		this.app.addHook("onError", (req, res, err) => {
+			console.error(err);
+		});
 		this.app.register(cookie, {hook: "onRequest", ...this.#registerParamsCookie});
 		this.app.register(cors, {credentials: true, ...this.#registerParamsCors});
 	}

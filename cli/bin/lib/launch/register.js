@@ -10,7 +10,7 @@ export default async function register(){
 			if(fs.lstatSync(resolve(path, file)).isDirectory()) find(resolve(path, file), fnc);
 			if(file.endsWith(Files.extname.register))arr.push(fnc(resolve(path, file)));
 		}
-	})(Directories.register, async (path) => {
+	})(Directories.register, async(path) => {
 		Anotherback.register((await import("file://" + path)).default, (await import("file://" + path)).options);
 	});
 	await Promise.all(arr);

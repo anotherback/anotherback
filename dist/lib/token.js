@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-export default class Token {
+export default class Token{
 	static generate(nameKey, info){
 		let obj = Keys.get(nameKey);
 		info = {info: info};
@@ -9,21 +9,21 @@ export default class Token {
 
 	static verify(token, nameKey){
 		let obj = Keys.get(nameKey);
-		try{
+		try {
 			let info = jwt.verify(token, obj.key, obj.options.verify).info;
 			return info;
 		}
-		catch{
+		catch {
 			return false;
 		}
 	}
 
 	static read(token){
-		try{
+		try {
 			let info = jwt.decode(token).info;
 			return info;
 		}
-		catch{
+		catch {
 			return {};
 		}
 	}
@@ -38,9 +38,9 @@ export default class Token {
 	}
 }
 
-export class Keys {
-	static create(name, key, options={}){
-		if(typeof key !== "string")throw new Error("");
+export class Keys{
+	static create(name, key, options = {}){
+		if(typeof key !== "string") throw new Error("");
 		this.#list[name] = {
 			key: key,
 			options: {
@@ -52,7 +52,7 @@ export class Keys {
 	}
 
 	static get(name){
-		if(!this.#list[name])throw new Error("");
+		if(!this.#list[name]) throw new Error("");
 		return this.#list[name];
 	}
 

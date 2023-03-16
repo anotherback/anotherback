@@ -30,9 +30,10 @@ export class Models{
 				return fs.readFileSync(Models.access, "utf-8");
 			}
 			static set access(arg){
-				try{
+				try {
 					fs.mkdirSync(arg.split("/").slice(0, -1).join("/"), {recursive: true});
-				}catch{}
+				}
+				catch {}
 				fs.writeFileSync(arg, this.access);
 			}
 
@@ -40,9 +41,10 @@ export class Models{
 				return fs.readFileSync(Models.checker, "utf-8");
 			}
 			static set checker(arg){
-				try{
+				try {
 					fs.mkdirSync(arg.split("/").slice(0, -1).join("/"), {recursive: true});
-				}catch{}
+				}
+				catch {}
 				fs.writeFileSync(arg, this.checker);
 			}
 
@@ -50,9 +52,10 @@ export class Models{
 				return fs.readFileSync(Models.register, "utf-8");
 			}
 			static set register(arg){
-				try{
+				try {
 					fs.mkdirSync(arg.split("/").slice(0, -1).join("/"), {recursive: true});
-				}catch{}
+				}
+				catch {}
 				fs.writeFileSync(arg, this.register);
 			}
 
@@ -60,9 +63,10 @@ export class Models{
 				return fs.readFileSync(Models.token, "utf-8");
 			}
 			static set token(arg){
-				try{
+				try {
 					fs.mkdirSync(arg.split("/").slice(0, -1).join("/"), {recursive: true});
-				}catch{}
+				}
+				catch {}
 				fs.writeFileSync(arg, this.token);
 			}
 
@@ -70,9 +74,10 @@ export class Models{
 				return fs.readFileSync(Models.config, "utf-8");
 			}
 			static set config(arg){
-				try{
+				try {
 					fs.mkdirSync(arg.split("/").slice(0, -1).join("/"), {recursive: true});
-				}catch{}
+				}
+				catch {}
 				fs.writeFileSync(arg, this.config);
 			}
 
@@ -80,9 +85,10 @@ export class Models{
 				return fs.readFileSync(Models.method, "utf-8");
 			}
 			static set method(arg){
-				try{
+				try {
 					fs.mkdirSync(arg.split("/").slice(0, -1).join("/"), {recursive: true});
-				}catch{}
+				}
+				catch {}
 				fs.writeFileSync(arg, this.method);
 			}
 
@@ -90,9 +96,10 @@ export class Models{
 				return fs.readFileSync(Models.sender, "utf-8");
 			}
 			static set sender(arg){
-				try{
+				try {
 					fs.mkdirSync(arg.split("/").slice(0, -1).join("/"), {recursive: true});
-				}catch{}
+				}
+				catch {}
 				fs.writeFileSync(arg, this.sender);
 			}
 		};

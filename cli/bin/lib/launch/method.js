@@ -11,7 +11,7 @@ export default async function method(){
 			if(fs.lstatSync(resolve(path, file)).isDirectory()) find(resolve(path, file), fnc);
 			if(file.endsWith(Files.extname.method))arr.push(fnc(resolve(path, file)));
 		}
-	})(Directories.method, async (path) => {
+	})(Directories.method, async(path) => {
 		Anotherback.createMethod(convertor(path, "method"), (await import("file://" + path)).default);
 	});
 	await Promise.all(arr);

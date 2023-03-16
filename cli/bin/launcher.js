@@ -15,9 +15,10 @@ class child{
 	}
 
 	static stop(){
-		try{
+		try {
 			process.kill(this.process.pid);
-		}catch{
+		}
+		catch {
 		}
 
 	}
@@ -85,8 +86,8 @@ new Watcher(
             path.indexOf("package-lock.json") > -1
 	}
 )
-.on("change", ()=>child.restart())
-.on("unlink", ()=>child.restart());
+.on("change", () => child.restart())
+.on("unlink", () => child.restart());
 
 process.on("SIGINT", () => {
 	process.exit(0);
