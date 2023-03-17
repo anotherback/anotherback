@@ -13,7 +13,7 @@ export default async function access(){
 		}
 	})(Directories.access, async(path) => {
 		let imp = (await import("file://" + path)).default;
-		Anotherback.createAccess(convertor(path, "access"), imp[0], imp[1]);
+		Anotherback.createAccess(convertor(path, "access"), imp);
 	});
 	await Promise.all(arr);
 }

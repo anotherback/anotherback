@@ -1,5 +1,5 @@
 declare class DefaultContext {
-	sender(name: string, ...args: any): void;
+	sender(name: string, info?: string, data?: string): never;
 
 	method(name: string, ...args: any): any | Promise<any>;
 
@@ -15,27 +15,13 @@ declare class DefaultContext {
 }
 
 export declare class AccessCtx extends DefaultContext {
-	otherAccess(name: string, launcher: string | undefined): (false | undefined | true) | Promise<(false | undefined | true)>;
+	otherAccess(name: string): Promise<boolean>;
 }
 
 export declare class CheckerCtx extends DefaultContext {
-	otherChecker(name: string, launcher: string | undefined): (false | undefined | true) | Promise<(false | undefined | true)>;
+	
 }
 
 export declare class RequestCtx extends DefaultContext {
 
-}
-
-export declare class SenderCtx {
-	successful(): void;
-
-    error(): void;
-
-    redirect(url: string): void;
-
-	code(code: number): number | undefined;
-
-	info(info: string): string | undefined;
-
-	data(data: any): any;
 }

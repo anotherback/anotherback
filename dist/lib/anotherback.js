@@ -2,22 +2,20 @@ import fastify from "fastify";
 import cookie from "@fastify/cookie";
 import cors from "@fastify/cors";
 import Route from "./route.js";
+import Sender from "./sender.js";
 
 export default class Anotherback{
 	static app = fastify();
 
 	static snack = {
 		accesses: {
-			"": {
-				launchers: {default: () => []},
-				fnc: () => true
-			}
+			"": () => undefined
 		},
 
 		checkers: {
 			"": {
-				launchers: {default: () => []},
-				fnc: () => true
+				launchers: {default: () => undefined},
+				fnc: () => undefined
 			}
 		},
 
@@ -30,8 +28,8 @@ export default class Anotherback{
 		}
 	};
 
-	static createAccess(name, launchers, fnc){
-		this.snack.accesses[name] = {launchers, fnc};
+	static createAccess(name, fnc){
+		this.snack.accesses[name] = fnc;
 	}
 
 	static createChecker(name, launchers, fnc){
@@ -43,7 +41,7 @@ export default class Anotherback{
 	}
 
 	static createSender(name, fnc){
-		this.snack.senders[name] = fnc;
+		this.snack.senders[name] = new Sender(fnc);
 	}
 
 	static async register(fnc, options){

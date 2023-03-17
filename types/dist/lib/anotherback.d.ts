@@ -2,7 +2,7 @@ import { FastifyListenOptions, FastifyRequest, FastifyReply, HTTPMethods, Fastif
 import { FastifyInstance } from "fastify/types/instance"
 import { FastifyCookieOptions } from "@fastify/cookie";
 import { FastifyCorsOptions } from "@fastify/cors";
-import { AccessCtx, CheckerCtx, RequestCtx, SenderCtx } from "./ctx";
+import { AccessCtx, CheckerCtx, RequestCtx } from "./ctx";
 
 interface requestDescribe {
     method: HTTPMethods,
@@ -18,22 +18,19 @@ export interface registerDescribe {
     access: string,
 }
 
-export type createAccessObj<R> = {
-	[key: string]: (req: FastifyRequest) => R;
-}
-export type createAccessFnc<R> = (this: AccessCtx, ...args: R) => (boolean | undefined) | Promise<(boolean | undefined)>;
+export type createAccessFnc = (this: AccessCtx, req: FastifyRequest) => void;
 
 export type createCheckerObj<R> = {
-	[key: string]: (req: FastifyRequest) => R & [];
+	[key: string]: (req: FastifyRequest) => R;
 }
-export type createCheckerFnc<R> = (this: CheckerCtx, ...args: R) => (boolean | undefined) | Promise<(boolean | undefined)>;
+export type createCheckerFnc<R> = (this: CheckerCtx, arg: R) => void;
 
 export type register = (reg: reg, hook: FastifyInstance["addHook"]) => void;
 type reg = (obj: requestDescribe) => (fnc: (this: RequestCtx, req: FastifyRequest, res: FastifyReply) => void) => void;
 
 export type fastifyRegister = (fastReg: FastifyRegister) => void;
 
-export type createSenderFnc = (this: SenderCtx, res: FastifyReply, ...args: any) => any;
+export type createSenderFnc = (res: FastifyReply, info?: string, data?: any) => {code?: number, info: string, data: any};
 export type createMethodFnc = (...args: any) => any | Promise<any>;
 
 export default class Anotherback{
@@ -51,9 +48,9 @@ export default class Anotherback{
 
     static prefix: string;
 
-	static createAccess<R>(name: string, launchers:createAccessObj<R>, fnc: createAccessFnc<R>): void;
+	static createAccess(name: string, fnc: createAccessFnc): void;
 
-    static createChecker<R>(name: string, launchers:createCheckerObj<R>, fnc: createCheckerFnc<R>): void;
+    static createChecker<R extends {}>(name: string, launchers:createCheckerObj<R>, fnc: createCheckerFnc<R>): void;
 	
 	static createSender(name: string, fnc: createSenderFnc): void;
 
