@@ -1,4 +1,5 @@
 import Anotherback from "./anotherback.js";
+import Sender from "./sender.js";
 import Token, {Keys} from "./token.js";
 
 export class Pass{
@@ -26,8 +27,15 @@ export class AccessCtx{
 		return this.#pass.handler(key, value);
 	}
 
-	otherAccess(name, launcher = "default"){
-		return Anotherback.snack.accesses[name].fnc.call(this, ...Anotherback.snack.accesses[name].launchers[launcher](this.req));
+	async otherAccess(name){
+		try {
+			await Anotherback.snack.accesses[name].call(this, this.req);
+			return true;
+		}
+		catch (error){
+			if(error instanceof Sender) return false;
+			else throw error;
+		}
 	}
 
 	static addProperty(name, fnc){
@@ -65,10 +73,6 @@ export class CheckerCtx{
 	#pass;
 	pass(key, value){
 		return this.#pass.handler(key, value);
-	}
-
-	otherChecker(name, launcher = "default"){
-		return Anotherback.snack.checkers[name].fnc.call(this, ...Anotherback.snack.checkers[name].launchers[launcher](this.req));
 	}
 
 	static addProperty(name, fnc){
@@ -131,69 +135,6 @@ export class RequestCtx{
 	}
 }
 
-export class SenderCtx{
-	constructor(req, res){
-		this.req = req;
-		this.res = res;
-	}
-
-	successful(){
-		this.res.status(this.#code).send({data: this.#data, info: this.#info, status: "successful"});
-	}
-
-	error(){
-		this.res.status(this.#code).send({data: this.#data, info: this.#info, status: "error"});
-	}
-
-	redirect(url){
-		this.res.status(this.#code).send({url, info: this.#info, status: "redirect"});
-	}
-
-	code(code){
-		if(code !== undefined) this.#code = code;
-		else return this.#code;
-	}
-
-	info(info){
-		if(info !== undefined) this.#info = info;
-		else return this.#info;
-	}
-
-	data(data){
-		if(data !== undefined) this.#data = data;
-		else return this.#data;
-	}
-
-	#code = 200;
-	#info = "";
-	#data = {};
-
-	req;
-	res;
-
-	static addProperty(name, fnc){
-		SenderCtx.prototype[name] = fnc;
-	}
-	static addGetter(name, fnc){
-		Object.defineProperty(
-			SenderCtx.prototype,
-			name,
-			{
-				get: fnc,
-			}
-		);
-	}
-	static addSetter(name, fnc){
-		Object.defineProperty(
-			SenderCtx.prototype,
-			name,
-			{
-				set: fnc
-			}
-		);
-	}
-}
-
 export default class Ctx{
 	constructor(req, res){
 		this.req = req;
@@ -228,12 +169,8 @@ export default class Ctx{
 function defaultConfig(context){
 	context.addProperty(
 		"sender",
-		function(index, ...args){
-			Anotherback.snack.senders[index].call(
-				new SenderCtx(this.req, this.res),
-				this.res,
-				...args
-			);
+		function(index, info, data){
+			throw Anotherback.snack.senders[index].init(info, data);
 		}
 	);
 

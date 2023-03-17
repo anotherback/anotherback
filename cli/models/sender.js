@@ -1,10 +1,11 @@
 import {sender} from "anotherback/cli";
 
 export default sender(
-	function(res, ...args){
-		this.code(200);
-		this.info(args[0]);
-		this.data(args[1]);
-		this.successful();
-	}
+	(res, info, data) => (
+		{
+			code: 200,
+			info: info,
+			data: data
+		}
+	)
 );

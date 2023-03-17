@@ -1,6 +1,7 @@
 import Anotherback from "./anotherback.js";
 import pathCorrector from "./pathCorrector.js";
 import Ctx from "./ctx.js";
+import Sender from "./sender.js";
 
 export default class Route{
 	constructor(app, options){
@@ -13,11 +14,13 @@ export default class Route{
 		obj.method = obj.method || "GET";
 		obj.checkers = obj.checkers || [];
 		obj.access = obj.access || "";
-		obj.regAccess = obj.regAccess || "";
-
+		obj.regAccess = obj.ignoreRegisterAccess === true ? "" : this.#options.access;
+		
 		const params = {
 			path: pathCorrector(Anotherback.prefix, this.#options.prefix, obj.path),
 			method: obj.method,
+			access: Anotherback.snack.accesses[obj.access],
+			regAccess: Anotherback.snack.accesses[obj.regAccess],
 			checkers: (() => {
 				const checkers = [];
 				for(const checker of obj.checkers){
@@ -33,29 +36,6 @@ export default class Route{
 				}
 				return checkers;
 			})(),
-			access: (() => {
-				let accessName = obj.access.split("<")[0];
-				let accessLauncher = obj.access.split("<")[1] || "default";
-
-				return {
-					launcher: Anotherback.snack.accesses[accessName].launchers[accessLauncher],
-					fnc: Anotherback.snack.accesses[accessName].fnc
-				};
-			})(),
-			regAccess: (() => {
-				let accessName = this.#options.access.split("<")[0];
-				let accessLauncher = this.#options.access.split("<")[1] || "default";
-
-				if(obj.ignoreRegisterAccess === true){
-					accessName = "";
-					accessLauncher = "default";
-				}
-
-				return {
-					launcher: Anotherback.snack.accesses[accessName].launchers[accessLauncher],
-					fnc: Anotherback.snack.accesses[accessName].fnc
-				};
-			})(),
 		};
 
 		return fnc => {
@@ -66,15 +46,29 @@ export default class Route{
 					async handler(req, res){
 						const ctx = new Ctx(req, res);
 
-						if(await params.regAccess.fnc.call(ctx.access, ...params.regAccess.launcher(req)) !== true) return;
+						try {
+							await params.regAccess.call(ctx.access, req);
 
-						if(await params.access.fnc.call(ctx.access, ...params.access.launcher(req)) !== true) return;
+							await params.access.call(ctx.access, req);
 
-						for(const checker of params.checkers){
-							if(await checker.fnc.call(ctx.checker, ...checker.launcher(req)) !== true) return;
+							for(const checker of params.checkers){
+								await checker.fnc.call(ctx.checker, checker.launcher(req));
+							}
+
+							await fnc.call(ctx.request, req, res);
+
+							throw new Sender();
 						}
-
-						await fnc.call(ctx.request, req, res);
+						catch (error){
+							if(error instanceof Sender)error.exec(res);
+							
+							else {
+								res.status(500).send({
+									i: "ERROR", 
+									d: error.stack
+								});
+							}
+						}
 					}
 				}
 			);
