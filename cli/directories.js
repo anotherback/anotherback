@@ -22,6 +22,8 @@ export class Models{
 
 	static sender = this.main + "/sender.js";
 
+	static env = this.main + "/.env";
+
 	static get config(){
 		return this.main + "/aob.config.js";
 	}
@@ -115,6 +117,17 @@ export class Models{
 				catch {}
 				fs.writeFileSync(arg, this.sender);
 			}
+
+			static get env(){
+				return fs.readFileSync(Models.env, "utf-8");
+			}
+			static set env(arg){
+				try {
+					fs.mkdirSync(arg.split("/").slice(0, -1).join("/"), {recursive: true});
+				}
+				catch {}
+				fs.writeFileSync(arg, this.env);
+			}
 		};
 	}
 }
@@ -171,6 +184,10 @@ export class Files{
 
 	static get notfound(){
 		return resolve(Directories.workdir, "notfound.js");
+	}
+
+	static get env(){
+		return resolve(Directories.main, ".env");
 	}
 
 	static get extname(){

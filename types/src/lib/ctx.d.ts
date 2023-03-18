@@ -1,3 +1,5 @@
+import env from "./env";
+
 declare class DefaultContext {
 	sender(name: string, info?: string, data?: string): never;
 
@@ -12,6 +14,8 @@ declare class DefaultContext {
     }
 
 	pass(key: string | object | undefined, value: any): any;
+
+	readonly env: env;
 }
 
 export declare class AccessCtx extends DefaultContext {

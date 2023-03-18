@@ -11,6 +11,12 @@ export class Models{
     
     static method: string;
 
+	static notfound: string;
+
+	static env: string;
+
+	static sender: string;
+
     static readonly config: string;
 }
 
@@ -34,12 +40,19 @@ export class Directories{
 
     static readonly method: string;
     static name_method: string;
+
+	static readonly sender: string;
+    static name_sender: string;
 }
 
 export class Files{
     static readonly config: string;
 
     static readonly token: string;
+
+	static readonly notfound: string;
+
+	static readonly env: string;
 
     static readonly extname: Extname;
 }
@@ -54,4 +67,6 @@ declare class Extname{
     static checker: string;
 
     static method: string;
+
+	static sender: string;
 }
