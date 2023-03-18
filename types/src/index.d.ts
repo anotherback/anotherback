@@ -1,6 +1,6 @@
 import Anotherback from "./lib/anotherback";
 import Token from "./lib/token";
-
+import env from "./lib/env";
 declare class StaticMethod{
 	static addProperty(name: string, property: any): void;
 	static addGetter(name: string, fnc: () => any): void;
@@ -16,5 +16,6 @@ export {
     Token,
 	AccessCtx,
 	CheckerCtx,
-	RequestCtx
+	RequestCtx,
+	env,
 }

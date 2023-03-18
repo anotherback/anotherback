@@ -1,7 +1,7 @@
 import Anotherback from "./anotherback.js";
 import Sender from "./sender.js";
 import Token, {Keys} from "./token.js";
-
+import env from "./env.js";
 export class Pass{
 	state = {};
 
@@ -209,6 +209,11 @@ function defaultConfig(context){
 				}
 			};
 		}
+	);
+
+	context.addGetter(
+		"env",
+		() => env
 	);
 }
 
