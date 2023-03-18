@@ -10,13 +10,11 @@ declare class StaticMethod{
 declare class AccessCtx extends StaticMethod{}
 declare class CheckerCtx extends StaticMethod{}
 declare class RequestCtx extends StaticMethod{}
-declare class SenderCtx extends StaticMethod{}
 
 export {
     Anotherback,
     Token,
 	AccessCtx,
 	CheckerCtx,
-	RequestCtx,
-	SenderCtx
+	RequestCtx
 }
