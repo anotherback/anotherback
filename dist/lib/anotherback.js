@@ -45,13 +45,22 @@ export default class Anotherback{
 	}
 
 	static async register(fnc, options){
+		if(this.#firstRegisterIsDone === false) this.#firstRegister();
+		
 		await this.app.register(async(app) => {
 			const route = new Route(app, options);
 			await fnc((...args) => route.register(...args), (...args) => this.app.addHook(...args));
 		});
 	}
 
+	static setNotFoundSender(fnc){
+		this.#notFoundSender = fnc;
+	}
+	static #notFoundSender = (res, info, data) => ({code: 404, info, data: `Route '${data.method}:${data.url}' not found.`});
+
 	static init(){
+		if(this.#firstRegisterIsDone === false) this.#firstRegister();
+		
 		this.app.listen({port: 80, ...this.#listenParams}, this.#listenCallback);
 	}
 
@@ -93,13 +102,23 @@ export default class Anotherback{
 		await fnc((...args) => this.app.register(...args));
 	}
 
+	static #firstRegister(){
+		this.#firstRegisterIsDone = true;
+
+		this.app.register(cookie, {hook: "onRequest", ...this.#registerParamsCookie});
+		this.app.register(cors, {credentials: true, ...this.#registerParamsCors});
+	}
+	static #firstRegisterIsDone = false;
+
 	static prefix = "";
 
 	static {
 		this.app.addHook("onError", (req, res, err) => {
 			console.error(err);
 		});
-		this.app.register(cookie, {hook: "onRequest", ...this.#registerParamsCookie});
-		this.app.register(cors, {credentials: true, ...this.#registerParamsCors});
+		this.app.setNotFoundHandler(async(req, res) => {
+			let result = await this.#notFoundSender(res, "NOTFOUND", {method: req.method, url: req.url});
+			if(result !== undefined)res.status(result.code || 404).send({i: result.info, d: result.data});
+		});
 	}
 }
