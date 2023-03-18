@@ -1,4 +1,4 @@
-import {Anotherback} from "../../../../dist/index.js";
+import {Anotherback} from "../../../../src/index.js";
 import {Files} from "../../../directories.js";
 
 export default async function notfound(){

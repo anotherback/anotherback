@@ -1,7 +1,7 @@
 {
   "name": "anotherback",
   "version": "1.0.0",
-  "types": "./types/dist/index.d.ts",
+  "types": "./types/src/index.d.ts",
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,7 +22,7 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/index.js"
+      "import": "./src/index.js"
     },
     "./cli": {
       "import": "./cli/index.js"

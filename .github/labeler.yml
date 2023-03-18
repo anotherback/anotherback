@@ -1,8 +1,8 @@
 cli:
   - "cli/**/*"
 
-dist:
-  - "dist/**/*"
+src:
+  - "src/**/*"
 
 types:
   - "types/**/*"
@@ -10,7 +10,7 @@ types:
 package: 
   - "package.json"
 
-cicd:
+github:
   - ".github/**/*"
 
 wip:
