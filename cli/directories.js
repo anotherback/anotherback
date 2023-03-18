@@ -16,6 +16,8 @@ export class Models{
 
 	static token = this.main + "/token.js";
 
+	static notfound = this.main + "/notfound.js";
+
 	static method = this.main + "/method.js";
 
 	static sender = this.main + "/sender.js";
@@ -68,6 +70,17 @@ export class Models{
 				}
 				catch {}
 				fs.writeFileSync(arg, this.token);
+			}
+
+			static get notfound(){
+				return fs.readFileSync(Models.notfound, "utf-8");
+			}
+			static set notfound(arg){
+				try {
+					fs.mkdirSync(arg.split("/").slice(0, -1).join("/"), {recursive: true});
+				}
+				catch {}
+				fs.writeFileSync(arg, this.notfound);
 			}
 
 			static get config(){
@@ -154,6 +167,10 @@ export class Files{
 
 	static get token(){
 		return resolve(Directories.workdir, "token.js");
+	}
+
+	static get notfound(){
+		return resolve(Directories.workdir, "notfound.js");
 	}
 
 	static get extname(){

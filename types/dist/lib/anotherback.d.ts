@@ -30,7 +30,9 @@ type reg = (obj: requestDescribe) => (fnc: (this: RequestCtx, req: FastifyReques
 
 export type fastifyRegister = (fastReg: FastifyRegister) => void;
 
-export type createSenderFnc = (res: FastifyReply, info?: string, data?: any) => {code?: number, info: string, data: any};
+type senderObjReturn = {code?: number, info?: string, data?: any}
+export type createSenderFnc = (res: FastifyReply, info?: string, data?: any) => (senderObjReturn | undefined) | Promise<senderObjReturn | undefined>;
+
 export type createMethodFnc = (...args: any) => any | Promise<any>;
 
 export default class Anotherback{
@@ -55,6 +57,8 @@ export default class Anotherback{
 	static createSender(name: string, fnc: createSenderFnc): void;
 
 	static createMethod(name: string, fnc: createMethodFnc): void;
+	
+	static setNotFoundSender(fnc: createSenderFnc): void;
 
     static register(fnc: register, obj: registerDescribe): void;
 
