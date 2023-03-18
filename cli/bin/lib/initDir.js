@@ -13,6 +13,7 @@ export default function initDir(){
 	if(!fs.existsSync(Directories.workdir))fs.mkdirSync(Directories.workdir);
 	if(!fs.existsSync(Directories.import))fs.mkdirSync(Directories.import);
 	if(!fs.existsSync(Files.token))Models.rw.token = Files.token;
+	if(!fs.existsSync(Files.notfound))Models.rw.notfound = Files.notfound;
 
 	if(!fs.existsSync(Directories.access))fs.mkdirSync(Directories.access);
 	find(
