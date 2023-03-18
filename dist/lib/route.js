@@ -60,7 +60,7 @@ export default class Route{
 							throw new Sender();
 						}
 						catch (error){
-							if(error instanceof Sender)error.exec(res);
+							if(error instanceof Sender) await error.exec(res);
 							
 							else {
 								res.status(500).send({
