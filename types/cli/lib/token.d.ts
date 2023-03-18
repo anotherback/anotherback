@@ -1,4 +1,4 @@
-import { optionsCreateKeys } from "../../dist/lib/token";
+import { optionsCreateKeys } from "../../src/lib/token";
 
 interface tokenAnotherback {
     name: string;

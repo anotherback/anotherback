@@ -1,4 +1,4 @@
-import {Anotherback} from "../../../../dist/index.js";
+import {Anotherback} from "../../../../src/index.js";
 import {Directories, Files} from "../../../directories.js";
 import fs from "fs";
 import convertor from "../convertor.js";

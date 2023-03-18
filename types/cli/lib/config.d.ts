@@ -1,7 +1,7 @@
 import { FastifyListenOptions } from "fastify";
 import { FastifyCookieOptions } from "@fastify/cookie";
 import { FastifyCorsOptions } from "@fastify/cors";
-import { fastifyRegister } from "../../dist/lib/anotherback";
+import { fastifyRegister } from "../../src/lib/anotherback";
 
 interface configAnotherback {
     listenParams: FastifyListenOptions;

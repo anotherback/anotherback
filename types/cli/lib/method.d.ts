@@ -1,3 +1,3 @@
-import { createMethodFnc } from "../../dist/lib/anotherback";
+import { createMethodFnc } from "../../src/lib/anotherback";
 
 export default function method(fnc: createMethodFnc): void;

@@ -1,4 +1,4 @@
-import {Anotherback} from "../../../dist/index.js";
+import {Anotherback} from "../../../src/index.js";
 import access from "./launch/access.js";
 import checker from "./launch/checker.js";
 import register from "./launch/register.js";

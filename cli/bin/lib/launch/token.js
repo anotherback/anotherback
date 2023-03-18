@@ -1,4 +1,4 @@
-import {Token} from "../../../../dist/index.js";
+import {Token} from "../../../../src/index.js";
 import {Files} from "../../../directories.js";
 
 export default async function token(){
