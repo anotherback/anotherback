@@ -5,7 +5,10 @@ export default class Sender{
 
 	async exec(res){
 		let result = await this.fnc(res, this.info, this.data);
-		if(result !== undefined)res.status(result.code || 200).send({i: result.info, d: result.data});
+		if(result !== undefined){
+			res.header("aob-info", result.info || undefined);
+			res.status(result.code || 200).send(result.data || undefined);
+		}
 	}
 
 	init(info, data){

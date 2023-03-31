@@ -27,13 +27,13 @@ export class AccessCtx{
 		return this.#pass.handler(key, value);
 	}
 
-	async otherAccess(name){
+	async otherAccess(name, exec = false){
 		try {
 			await Anotherback.snack.accesses[name].call(this, this.req);
 			return true;
 		}
 		catch (error){
-			if(error instanceof Sender) return false;
+			if(error instanceof Sender && exec !== true) return false;
 			else throw error;
 		}
 	}
