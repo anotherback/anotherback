@@ -1,22 +1,32 @@
 import { Octokit } from "@octokit/rest";
 
 const octokit = new Octokit({
-    auth: process.env.GITHUB_TOKEN
+    auth: "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"
 })
+async function getPRName(page=1){
+    const pulls = await octokit.pulls.list({
+        owner: "anotherback",
+        repo: "anotherback",
+        state: "closed",
+        base: "develop",
+        sort: "created",
+        direction: "desc",
+        per_page: 30,
+        page: page,
+    });
 
-const pulls = await octokit.pulls.list({
-    owner: process.env.GITHUB_OWNER,
-    repo: process.env.GITHUB_REPO,
-    state: "closed",
-    base: process.env.GITHUB_BRANCHE,
-    sort: "created",
-    direction: "desc"
-});
+    let list = pulls.data
+    .filter(pull => pull.merged_at !== null)
+    .map(pull => pull.title)
+    .reverse();
+    if(pulls.data.length === 30) list = [...await getPRName(page+1), ...list];
+    return list;
+}
 
-let list = pulls.data
-.filter(pull => pull.merged_at !== null)
-.map(pull => pull.title)
-.reverse();
+
+let list = await getPRName();
+
+console.log(list);
 
 let br = 0;
 let feat = 0;
