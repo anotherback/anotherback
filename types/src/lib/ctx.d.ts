@@ -29,3 +29,7 @@ export declare class CheckerCtx extends DefaultContext {
 export declare class RequestCtx extends DefaultContext {
 
 }
+
+export declare class MethodCtx {
+	method(name: string, ...args: any): any | Promise<any>;
+}

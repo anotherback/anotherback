@@ -67,7 +67,10 @@ export default class Anotherback{
 		});
 		this.app.setNotFoundHandler(async(req, res) => {
 			let result = await this.#notFoundSender(res, "NOTFOUND", {method: req.method, url: req.url});
-			if(result !== undefined)res.status(result.code || 404).send({i: result.info, d: result.data});
+			if(result !== undefined){
+				res.header("aob-info", result.info || undefined);
+				res.status(404).send(result.data || undefined);
+			}
 		});
 
 		await this.app.register(cookie, {hook: "onRequest", ...this.#registerParamsCookie});

@@ -141,6 +141,10 @@ export class RequestCtx{
 	}
 }
 
+const methodCtx = {
+	method: (index, ...args) => Anotherback.snack.methods[index](...args)
+};
+
 export default class Ctx{
 	constructor(req, res){
 		this.req = req;
@@ -182,7 +186,7 @@ function defaultConfig(context){
 
 	context.addProperty(
 		"method",
-		(index, ...args) => Anotherback.snack.methods[index](...args)
+		(index, ...args) => Anotherback.snack.methods[index].call(methodCtx, ...args)
 	);
 
 	context.addGetter(
