@@ -38,7 +38,7 @@ export type createMethodFnc = (...args: any) => any | Promise<any>;
 export default class Anotherback{
     static readonly app: FastifyInstance;
 
-    static init(): void;
+    static async init(): void;
 
     static listenCallback: FastifyInstance["listen"];
 
@@ -60,7 +60,7 @@ export default class Anotherback{
 	
 	static setNotFoundSender(fnc: createSenderFnc): void;
 
-    static register(fnc: register, obj: registerDescribe): void;
+    static register(obj: registerDescribe, fnc: register): void;
 
     static fastifyRegister(fnc: fastifyRegister): void;
 }

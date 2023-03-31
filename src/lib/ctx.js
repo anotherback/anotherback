@@ -47,6 +47,7 @@ export class AccessCtx{
 			name,
 			{
 				get: fnc,
+				configurable: true,
 			}
 		);
 	}
@@ -55,7 +56,8 @@ export class AccessCtx{
 			AccessCtx.prototype,
 			name,
 			{
-				set: fnc
+				set: fnc,
+				configurable: true,
 			}
 		);
 	}
@@ -84,6 +86,7 @@ export class CheckerCtx{
 			name,
 			{
 				get: fnc,
+				configurable: true,
 			}
 		);
 	}
@@ -92,7 +95,8 @@ export class CheckerCtx{
 			CheckerCtx.prototype,
 			name,
 			{
-				set: fnc
+				set: fnc,
+				configurable: true,
 			}
 		);
 	}
@@ -121,6 +125,7 @@ export class RequestCtx{
 			name,
 			{
 				get: fnc,
+				configurable: true,
 			}
 		);
 	}
@@ -129,7 +134,8 @@ export class RequestCtx{
 			RequestCtx.prototype,
 			name,
 			{
-				set: fnc
+				set: fnc,
+				configurable: true,
 			}
 		);
 	}

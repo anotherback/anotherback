@@ -28,6 +28,7 @@ await Promise.all([
 ]);
 
 Anotherback.prefix = config.prefix;
+Anotherback.debug = config.debug;
 Anotherback.registerParamsCookie = config.registerParamsCookie;
 Anotherback.registerParamsCors = config.registerParamsCors;
 
