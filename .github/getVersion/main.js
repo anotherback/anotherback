@@ -23,10 +23,7 @@ async function getPRName(page=1){
     return list;
 }
 
-
 let list = await getPRName();
-
-console.log(list);
 
 let br = 0;
 let feat = 0;
