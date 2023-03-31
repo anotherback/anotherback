@@ -11,7 +11,7 @@ export default async function register(){
 			if(file.endsWith(Files.extname.register))arr.push(fnc(resolve(path, file)));
 		}
 	})(Directories.register, async(path) => {
-		Anotherback.register((await import("file://" + path)).default, (await import("file://" + path)).options);
+		Anotherback.register((await import("file://" + path)).options, (await import("file://" + path)).default);
 	});
 	await Promise.all(arr);
 }
