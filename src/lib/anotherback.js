@@ -71,7 +71,7 @@ export default class Anotherback{
 		});
 
 		await this.app.register(cookie, {hook: "onRequest", ...this.#registerParamsCookie});
-		await this.app.register(cors, {credentials: true, ...this.#registerParamsCors});
+		await this.app.register(cors, {credentials: true, ...this.#registerParamsCors, exposedHeaders: ["aob-info", ...(this.#registerParamsCors.exposedHeaders || [])]});
 
 		for(const reg of this.snack.register) await this.app.register(reg);
 		
