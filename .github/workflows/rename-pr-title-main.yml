@@ -19,10 +19,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           configuration_path: ".github/check-pr-tilte-publish.json"
         
-      - name: get main branch
+      - name: get develop branch
         uses: actions/checkout@v3
         with:
-          ref: main
+          ref: develop
           fetch-depth: 0 
           
       - name: set up Node.js
