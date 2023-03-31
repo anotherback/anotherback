@@ -180,7 +180,8 @@ function findCallMemberExpression(fnc, obj){
 				)obj.directive(child.directive);
 			}
 		}
-	})(parse(fnc.toString().replace(/^function[^(]*\(/, "function verif(")));
+	})(parse(fnc.toString().replace(/^function[^(]*\(/, "function verif(").replace(/^async function[^(]*\(/, "async function verif(")));
+
 }
 
 function regexToTable(regex, string){

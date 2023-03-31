@@ -27,13 +27,13 @@ export class AccessCtx{
 		return this.#pass.handler(key, value);
 	}
 
-	async otherAccess(name){
+	async otherAccess(name, exec = false){
 		try {
 			await Anotherback.snack.accesses[name].call(this, this.req);
 			return true;
 		}
 		catch (error){
-			if(error instanceof Sender) return false;
+			if(error instanceof Sender && exec !== true) return false;
 			else throw error;
 		}
 	}
@@ -141,6 +141,10 @@ export class RequestCtx{
 	}
 }
 
+const methodCtx = {
+	method: (index, ...args) => Anotherback.snack.methods[index](...args)
+};
+
 export default class Ctx{
 	constructor(req, res){
 		this.req = req;
@@ -182,7 +186,7 @@ function defaultConfig(context){
 
 	context.addProperty(
 		"method",
-		(index, ...args) => Anotherback.snack.methods[index](...args)
+		(index, ...args) => Anotherback.snack.methods[index].call(methodCtx, ...args)
 	);
 
 	context.addGetter(
