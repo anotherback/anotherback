@@ -2,7 +2,7 @@ import { FastifyListenOptions, FastifyRequest, FastifyReply, HTTPMethods, Fastif
 import { FastifyInstance } from "fastify/types/instance"
 import { FastifyCookieOptions } from "@fastify/cookie";
 import { FastifyCorsOptions } from "@fastify/cors";
-import { AccessCtx, CheckerCtx, RequestCtx } from "./ctx";
+import { AccessCtx, CheckerCtx, MethodCtx, RequestCtx } from "./ctx";
 
 interface requestDescribe {
     method: HTTPMethods,
@@ -33,7 +33,7 @@ export type fastifyRegister = (fastReg: FastifyRegister) => void;
 type senderObjReturn = {code?: number, info?: string, data?: any}
 export type createSenderFnc = (res: FastifyReply, info?: string, data?: any) => (senderObjReturn | undefined) | Promise<senderObjReturn | undefined>;
 
-export type createMethodFnc = (...args: any) => any | Promise<any>;
+export type createMethodFnc = (this: MethodCtx, ...args: any) => any | Promise<any>;
 
 export default class Anotherback{
     static readonly app: FastifyInstance;
