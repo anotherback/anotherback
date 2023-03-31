@@ -181,6 +181,7 @@ function findCallMemberExpression(fnc, obj){
 			}
 		}
 	})(parse(fnc.toString().replace(/^function[^(]*\(/, "function verif(").replace(/^async function[^(]*\(/, "async function verif(")));
+
 }
 
 function regexToTable(regex, string){
