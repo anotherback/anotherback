@@ -11,13 +11,22 @@ export default class Route{
 
 	register(obj){
 		obj.path = obj.path || "";
+		obj.path = pathCorrector(Anotherback.prefix, this.#options.prefix, obj.path);
 		obj.method = obj.method || "GET";
 		obj.checkers = obj.checkers || [];
 		obj.access = obj.access || "";
 		obj.regAccess = obj.ignoreRegisterAccess === true ? "" : this.#options.access;
 		
+		if(Anotherback.snack.accesses[obj.access] === undefined){
+			throw new Error(`Route "${obj.method}:${obj.path}" uses access "${obj.access}" but it does not exist.`);
+		}
+		
+		if(Anotherback.snack.accesses[obj.regAccess] === undefined){
+			throw new Error(`Register of "${obj.method}:${obj.path}" uses access "${obj.access}" but it does not exist.`);
+		}
+
 		const params = {
-			path: pathCorrector(Anotherback.prefix, this.#options.prefix, obj.path),
+			path: obj.path,
 			method: obj.method,
 			access: Anotherback.snack.accesses[obj.access],
 			regAccess: Anotherback.snack.accesses[obj.regAccess],
@@ -27,7 +36,12 @@ export default class Route{
 					let checkerName = checker.split("<")[0];
 					let ckeckerLauncher = checker.split("<")[1] || "default";
 
-					if(Anotherback.snack.checkers[checkerName] === undefined) continue;
+					if(Anotherback.snack.checkers[checkerName] === undefined){
+						throw new Error(`Route "${obj.method}:${obj.path}" uses checker "${checkerName}" but it does not exist.`);
+					}
+					if(Anotherback.snack.checkers[checkerName].launchers[ckeckerLauncher] === undefined){
+						throw new Error(`Route "${obj.method}:${obj.path}" uses launcher "${ckeckerLauncher}" of checker "${checkerName}" but it does not exist.`);
+					}
 
 					checkers.push({
 						launcher: Anotherback.snack.checkers[checkerName].launchers[ckeckerLauncher],
@@ -39,6 +53,7 @@ export default class Route{
 		};
 
 		return fnc => {
+			Route.routes.push([params, fnc]);
 			this.#app.route(
 				{
 					url: params.path,
@@ -63,6 +78,8 @@ export default class Route{
 							if(error instanceof Sender) await error.exec(res);
 							
 							else {
+								console.error(error);
+
 								res.status(500).send({
 									i: "ERROR", 
 									d: error.stack
@@ -81,4 +98,6 @@ export default class Route{
 	};
 
 	#app = undefined;
+
+	static routes = [];
 }

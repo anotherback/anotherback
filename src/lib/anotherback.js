@@ -3,9 +3,10 @@ import cookie from "@fastify/cookie";
 import cors from "@fastify/cors";
 import Route from "./route.js";
 import Sender from "./sender.js";
+import {checkUpstreamError} from "./debug.js";
 
 export default class Anotherback{
-	static app = fastify();
+	static app = undefined;
 
 	static snack = {
 		accesses: {
@@ -25,7 +26,9 @@ export default class Anotherback{
 
 		senders: {
 
-		}
+		},
+
+		register: [],
 	};
 
 	static createAccess(name, fnc){
@@ -44,10 +47,8 @@ export default class Anotherback{
 		this.snack.senders[name] = new Sender(fnc);
 	}
 
-	static async register(fnc, options){
-		if(this.#firstRegisterIsDone === false) this.#firstRegister();
-		
-		await this.app.register(async(app) => {
+	static async register(options, fnc){
+		this.snack.register.push(async(app) => {
 			const route = new Route(app, options);
 			await fnc((...args) => route.register(...args), (...args) => this.app.addHook(...args));
 		});
@@ -58,9 +59,24 @@ export default class Anotherback{
 	}
 	static #notFoundSender = (res, info, data) => ({code: 404, info, data: `Route '${data.method}:${data.url}' not found.`});
 
-	static init(){
-		if(this.#firstRegisterIsDone === false) this.#firstRegister();
+	static async init(){
+		this.app = fastify();
+
+		this.app.addHook("onError", (req, res, err) => {
+			console.error(err);
+		});
+		this.app.setNotFoundHandler(async(req, res) => {
+			let result = await this.#notFoundSender(res, "NOTFOUND", {method: req.method, url: req.url});
+			if(result !== undefined)res.status(result.code || 404).send({i: result.info, d: result.data});
+		});
+
+		await this.app.register(cookie, {hook: "onRequest", ...this.#registerParamsCookie});
+		await this.app.register(cors, {credentials: true, ...this.#registerParamsCors});
+
+		for(const reg of this.snack.register) await this.app.register(reg);
 		
+		if(this.debug === true)checkUpstreamError();
+
 		this.app.listen({port: 80, ...this.#listenParams}, this.#listenCallback);
 	}
 
@@ -102,23 +118,7 @@ export default class Anotherback{
 		await fnc((...args) => this.app.register(...args));
 	}
 
-	static #firstRegister(){
-		this.#firstRegisterIsDone = true;
-
-		this.app.register(cookie, {hook: "onRequest", ...this.#registerParamsCookie});
-		this.app.register(cors, {credentials: true, ...this.#registerParamsCors});
-	}
-	static #firstRegisterIsDone = false;
-
 	static prefix = "";
 
-	static {
-		this.app.addHook("onError", (req, res, err) => {
-			console.error(err);
-		});
-		this.app.setNotFoundHandler(async(req, res) => {
-			let result = await this.#notFoundSender(res, "NOTFOUND", {method: req.method, url: req.url});
-			if(result !== undefined)res.status(result.code || 404).send({i: result.info, d: result.data});
-		});
-	}
+	static debug = false;
 }
