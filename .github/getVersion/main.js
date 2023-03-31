@@ -1,15 +1,15 @@
 import { Octokit } from "@octokit/rest";
 
 const octokit = new Octokit({
-    auth: process.env.GITHUB_TOKEN
+    auth: "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"
 })
 
 const pulls = await octokit.pulls.list({
-    owner: process.env.GITHUB_OWNER,
-    repo: process.env.GITHUB_REPO,
+    owner: "anotherback",
+    repo: "anotherback",
     state: "closed",
-    base: process.env.GITHUB_BRANCHE,
-    sort: "updated",
+    base: "develop",
+    sort: "created",
     direction: "desc"
 });
 
