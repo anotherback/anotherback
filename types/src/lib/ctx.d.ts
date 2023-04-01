@@ -19,7 +19,7 @@ declare class DefaultContext {
 }
 
 export declare class AccessCtx extends DefaultContext {
-	otherAccess(name: string): Promise<boolean>;
+	otherAccess(name: string, exec: boolean): Promise<boolean>;
 }
 
 export declare class CheckerCtx extends DefaultContext {
