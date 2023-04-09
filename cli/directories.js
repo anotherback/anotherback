@@ -18,6 +18,8 @@ export class Models{
 
 	static notfound = this.main + "/notfound.js";
 
+	static error = this.main + "/error.js";
+
 	static method = this.main + "/method.js";
 
 	static sender = this.main + "/sender.js";
@@ -83,6 +85,17 @@ export class Models{
 				}
 				catch {}
 				fs.writeFileSync(arg, this.notfound);
+			}
+
+			static get error(){
+				return fs.readFileSync(Models.error, "utf-8");
+			}
+			static set error(arg){
+				try {
+					fs.mkdirSync(arg.split("/").slice(0, -1).join("/"), {recursive: true});
+				}
+				catch {}
+				fs.writeFileSync(arg, this.error);
 			}
 
 			static get config(){
@@ -184,6 +197,10 @@ export class Files{
 
 	static get notfound(){
 		return resolve(Directories.workdir, "notfound.js");
+	}
+
+	static get error(){
+		return resolve(Directories.workdir, "error.js");
 	}
 
 	static get env(){

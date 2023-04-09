@@ -76,15 +76,7 @@ export default class Route{
 						}
 						catch (error){
 							if(error instanceof Sender) await error.exec(res);
-							
-							else {
-								console.error(error);
-
-								res.status(500).send({
-									i: "ERROR", 
-									d: error.stack
-								});
-							}
+							else this.errorHandler(error, req, res);
 						}
 					}
 				}

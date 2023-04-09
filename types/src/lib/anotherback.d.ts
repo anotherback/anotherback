@@ -61,6 +61,8 @@ export default class Anotherback{
 	
 	static setNotFoundSender(fnc: createSenderFnc): void;
 
+	static setErrorSender(fnc: createSenderFnc): void;
+
     static register(obj: registerDescribe, fnc: register): void;
 
     static fastifyRegister(fnc: fastifyRegister): void;

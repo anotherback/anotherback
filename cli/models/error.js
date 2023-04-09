@@ -1,10 +1,10 @@
 import {sender} from "anotherback/cli";
 
 export default sender(
-	(res, info, data) => (
+	(res, info, error) => (
 		{
 			info: info,
-			data: `Route '${data.method}:${data.url}' not found.`
+			data: error.toString()
 		}
 	)
 );
