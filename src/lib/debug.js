@@ -117,7 +117,7 @@ function computePass(fnc, pass, callback){
 				obj.type === "ExpressionStatement" && 
 				obj.directive !== undefined && 
 				obj.directive.startsWith("aob-pass:")
-			)pass.push(directive.split(":")[1]);
+			)pass.push(obj.directive.split(":")[1]);
 			
 			if(obj.type === "ExpressionStatement") return;
 			
