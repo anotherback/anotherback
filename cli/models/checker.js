@@ -8,3 +8,12 @@ export default checker(
 		
 	}
 );
+
+// export const other = checker(
+// 	{
+// 		default: req => ({req})
+// 	},
+// 	function({req}){
+		
+// 	}
+// );
