@@ -12,8 +12,13 @@ export default async function checker(){
 			if(file.endsWith(Files.extname.checker))arr.push(fnc(resolve(path, file)));
 		}
 	})(Directories.checker, async(path) => {
-		let imp = (await import("file://" + path)).default;
-		Anotherback.createChecker(convertor(path, "checker"), imp[0], imp[1]);
+		let imp = await import("file://" + path);
+		Anotherback.createChecker(convertor(path, "checker"), imp.default[0], imp.default[1]);
+		for(const key in imp){
+			if(key === "default") continue;
+			Anotherback.createChecker(convertor(path, "checker") + "::" + key, imp[key][0], imp[key][1]);
+		}
+		
 	});
 	await Promise.all(arr);
 }

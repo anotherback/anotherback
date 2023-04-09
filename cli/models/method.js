@@ -6,3 +6,10 @@ export default method(
 		return false;
 	}
 );
+
+// export const other = method(
+// 	function(arg){
+// 		console.log(arg);
+// 		return false;
+// 	}
+// );

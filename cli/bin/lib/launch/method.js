@@ -12,7 +12,12 @@ export default async function method(){
 			if(file.endsWith(Files.extname.method))arr.push(fnc(resolve(path, file)));
 		}
 	})(Directories.method, async(path) => {
-		Anotherback.createMethod(convertor(path, "method"), (await import("file://" + path)).default);
+		let imp = await import("file://" + path);
+		Anotherback.createMethod(convertor(path, "method"), imp.default);
+		for(const key in imp){
+			if(key === "default") continue;
+			Anotherback.createMethod(convertor(path, "method") + "::" + key, imp[key]);
+		}
 	});
 	await Promise.all(arr);
 }
