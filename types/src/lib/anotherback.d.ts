@@ -10,6 +10,7 @@ interface requestDescribe {
     checkers: Array<string>,
     access: string,
     ignoreRegisterAccess: boolean,
+	ignoreRegisterPrefix: boolean,
 }
 
 export interface registerDescribe {
