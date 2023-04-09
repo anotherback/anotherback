@@ -142,7 +142,7 @@ export class RequestCtx{
 }
 
 const methodCtx = {
-	method: (index, ...args) => Anotherback.snack.methods[index](...args)
+	method: (index, ...args) => Anotherback.snack.methods[index].call(methodCtx, ...args)
 };
 
 export default class Ctx{

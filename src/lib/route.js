@@ -11,7 +11,7 @@ export default class Route{
 
 	register(obj){
 		obj.path = obj.path || "";
-		obj.path = pathCorrector(Anotherback.prefix, this.#options.prefix, obj.path);
+		obj.path = pathCorrector(Anotherback.prefix, obj.ignoreRegisterPrefix === true ? "" : this.#options.prefix, obj.path);
 		obj.method = obj.method || "GET";
 		obj.checkers = obj.checkers || [];
 		obj.access = obj.access || "";
@@ -76,15 +76,7 @@ export default class Route{
 						}
 						catch (error){
 							if(error instanceof Sender) await error.exec(res);
-							
-							else {
-								console.error(error);
-
-								res.status(500).send({
-									i: "ERROR", 
-									d: error.stack
-								});
-							}
+							else this.errorHandler(error, req, res);
 						}
 					}
 				}

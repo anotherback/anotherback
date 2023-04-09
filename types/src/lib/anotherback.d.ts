@@ -10,6 +10,7 @@ interface requestDescribe {
     checkers: Array<string>,
     access: string,
     ignoreRegisterAccess: boolean,
+	ignoreRegisterPrefix: boolean,
 }
 
 export interface registerDescribe {
@@ -59,6 +60,8 @@ export default class Anotherback{
 	static createMethod(name: string, fnc: createMethodFnc): void;
 	
 	static setNotFoundSender(fnc: createSenderFnc): void;
+
+	static setErrorSender(fnc: createSenderFnc): void;
 
     static register(obj: registerDescribe, fnc: register): void;
 
