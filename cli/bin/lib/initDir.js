@@ -14,6 +14,7 @@ export default function initDir(){
 	if(!fs.existsSync(Directories.import))fs.mkdirSync(Directories.import);
 	if(!fs.existsSync(Files.token))Models.rw.token = Files.token;
 	if(!fs.existsSync(Files.notfound))Models.rw.notfound = Files.notfound;
+	if(!fs.existsSync(Files.error))Models.rw.error = Files.error;
 	if(!fs.existsSync(Files.env))Models.rw.env = Files.env;
 
 	if(!fs.existsSync(Directories.access))fs.mkdirSync(Directories.access);

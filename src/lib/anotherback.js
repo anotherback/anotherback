@@ -57,19 +57,29 @@ export default class Anotherback{
 	static setNotFoundSender(fnc){
 		this.#notFoundSender = fnc;
 	}
-	static #notFoundSender = (res, info, data) => ({code: 404, info, data: `Route '${data.method}:${data.url}' not found.`});
+	static #notFoundSender = (res, info, data) => ({info, data: `Route '${data.method}:${data.url}' not found.`});
+
+	static setErrorSender(fnc){
+		this.#errorSender = fnc;
+	}
+	static #errorSender = (res, info, error) => ({info, data: error});
 
 	static async init(){
 		this.app = fastify();
 
-		this.app.addHook("onError", (req, res, err) => {
-			console.error(err);
-		});
 		this.app.setNotFoundHandler(async(req, res) => {
-			let result = await this.#notFoundSender(res, "NOTFOUND", {method: req.method, url: req.url});
+			let result = await this.#notFoundSender(res, "NOT_FOUND", {method: req.method, url: req.url});
 			if(result !== undefined){
 				res.header("aob-info", result.info || undefined);
 				res.status(404).send(result.data || undefined);
+			}
+		});
+		this.app.setErrorHandler(async(error, req, res) => {
+			console.error(error);
+			let result = await this.#errorSender(res, "ERROR", error);
+			if(result !== undefined){
+				res.header("aob-info", result.info || undefined);
+				res.status(500).send({ERROR: result.data});
 			}
 		});
 
