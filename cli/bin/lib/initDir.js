@@ -68,7 +68,18 @@ export default function initDir(){
 			if(
 				fs.readFileSync(path, "utf-8") === "" &&
 				path.endsWith(Files.extname.sender)
-			)Models.rw.method = path;
+			)Models.rw.sender = path;
+		}
+	);
+
+	if(!fs.existsSync(Directories.schema))fs.mkdirSync(Directories.schema);
+	find(
+		Directories.schema,
+		path => {
+			if(
+				fs.readFileSync(path, "utf-8") === "" &&
+				path.endsWith(Files.extname.schema)
+			)Models.rw.schema = path;
 		}
 	);
 }

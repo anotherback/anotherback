@@ -6,6 +6,7 @@ import token from "./lib/token";
 import registerOptions from "./lib/registerOptions";
 import method from "./lib/method";
 import sender from "./lib/sender";
+import schema from "./lib/schema";
 import { Directories, Models, Files } from "./directories";
 
 export {
@@ -17,6 +18,7 @@ export {
     registerOptions,
     method,
     sender,
+	schema,
     Directories, 
     Models, 
     Files
