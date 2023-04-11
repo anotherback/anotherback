@@ -74,6 +74,14 @@ new Watcher(Directories.sender, {recursive: true, ignoreInitial: true})
 	)Models.rw.sender = path;
 });
 
+new Watcher(Directories.schema, {recursive: true, ignoreInitial: true})
+.on("add", path => {
+	if(
+		fs.readFileSync(path, "utf-8") === "" &&
+			path.endsWith(Files.extname.schema)
+	)Models.rw.schema = path;
+});
+
 await Event.launch("initDir");
 
 new Watcher(

@@ -13,6 +13,8 @@ export default class Anotherback{
 			"": () => undefined
 		},
 
+		schemas: {},
+
 		checkers: {
 			"": {
 				launchers: {default: () => undefined},
@@ -33,6 +35,18 @@ export default class Anotherback{
 
 	static createAccess(name, fnc){
 		this.snack.accesses[name] = fnc;
+	}
+
+	static createSchema(name, schema, fnc){
+		this.snack.schemas[name] = {
+			schema,
+			error: () => fnc((index, info, data) => {
+				throw (
+					this.snack.senders[index]?.init(info, data) || 
+					new Sender(() => ({code: 400, info: "FIELD_ERROR"}))
+				);
+			}),
+		};
 	}
 
 	static createChecker(name, launchers, fnc){

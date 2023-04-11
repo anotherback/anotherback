@@ -24,6 +24,8 @@ export class Models{
 
 	static sender = this.main + "/sender.js";
 
+	static schema = this.main + "/schema.js";	
+
 	static env = this.main + "/.env";
 
 	static get config(){
@@ -131,6 +133,17 @@ export class Models{
 				fs.writeFileSync(arg, this.sender);
 			}
 
+			static get schema(){
+				return fs.readFileSync(Models.schema, "utf-8");
+			}
+			static set schema(arg){
+				try {
+					fs.mkdirSync(arg.split("/").slice(0, -1).join("/"), {recursive: true});
+				}
+				catch {}
+				fs.writeFileSync(arg, this.schema);
+			}
+
 			static get env(){
 				return fs.readFileSync(Models.env, "utf-8");
 			}
@@ -184,6 +197,11 @@ export class Directories{
 	static get sender(){
 		return resolve(this.workdir, this.name_sender);
 	}
+
+	static name_schema = "schema";
+	static get schema(){
+		return resolve(this.workdir, this.name_schema);
+	}
 }
 
 export class Files{
@@ -224,4 +242,6 @@ class Extname{
 	static method = ".js";
 
 	static sender = ".js";
+
+	static schema = ".js";
 }
