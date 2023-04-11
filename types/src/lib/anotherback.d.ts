@@ -3,19 +3,32 @@ import { FastifyInstance } from "fastify/types/instance"
 import { FastifyCookieOptions } from "@fastify/cookie";
 import { FastifyCorsOptions } from "@fastify/cors";
 import { AccessCtx, CheckerCtx, MethodCtx, RequestCtx } from "./ctx";
+import Joi from "joi";
+
+
+type exactSchema = {
+	[key: string]: string | {
+		schema: string,
+		key: string,
+	}
+}
 
 interface requestDescribe {
     method: HTTPMethods,
     path: string,
     checkers: Array<string>,
     access: string,
+	schema: {
+		params: exactSchema,
+		body: exactSchema,
+		query: exactSchema,
+	},
     ignoreRegisterAccess: boolean,
 	ignoreRegisterPrefix: boolean,
 }
 
 export interface registerDescribe {
     prefix: string,
-    checkers: Array<string>,
     access: string,
 }
 
@@ -36,6 +49,8 @@ export type createSenderFnc = (res: FastifyReply, info?: string, data?: any) => 
 
 export type createMethodFnc = (this: MethodCtx, ...args: any) => any | Promise<any>;
 
+export type schemaErrorFnc = (sender: CheckerCtx["sender"]) => void;
+
 export default class Anotherback{
     static readonly app: FastifyInstance;
 
@@ -52,6 +67,8 @@ export default class Anotherback{
     static prefix: string;
 
 	static createAccess(name: string, fnc: createAccessFnc): void;
+
+	static createSchema(name: string, schema: Joi.AnySchema, fnc: schemaErrorFnc): void;
 
     static createChecker<R extends {}>(name: string, launchers:createCheckerObj<R>, fnc: createCheckerFnc<R>): void;
 	

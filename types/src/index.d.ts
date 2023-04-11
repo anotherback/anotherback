@@ -1,6 +1,7 @@
 import Anotherback from "./lib/anotherback";
 import Token from "./lib/token";
 import env from "./lib/env";
+import Joi from "joi";
 declare class StaticMethod{
 	static addProperty(name: string, property: any): void;
 	static addGetter(name: string, fnc: () => any): void;
@@ -18,4 +19,5 @@ export {
 	CheckerCtx,
 	RequestCtx,
 	env,
+	Joi as schema,
 }

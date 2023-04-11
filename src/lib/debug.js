@@ -60,6 +60,12 @@ export function checkUpstreamError(){
 			}
 		);
 
+		for(const loc of params.schema.keys){
+			for(const obj of params.schema[loc]){
+				pass.push(obj.pass);
+			}
+		}
+
 		for(const [key, {fnc}] of Object.entries(params.checkers)){
 			pass = computePass(
 				fnc, 

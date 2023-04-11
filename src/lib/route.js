@@ -2,6 +2,7 @@ import Anotherback from "./anotherback.js";
 import pathCorrector from "./pathCorrector.js";
 import Ctx from "./ctx.js";
 import Sender from "./sender.js";
+import Joi from "joi";
 
 export default class Route{
 	constructor(app, options){
@@ -16,7 +17,11 @@ export default class Route{
 		obj.checkers = obj.checkers || [];
 		obj.access = obj.access || "";
 		obj.regAccess = obj.ignoreRegisterAccess === true ? "" : this.#options.access;
-		
+
+		if(obj.schema !== undefined && joi_schema.validate(obj.schema).error !== undefined){
+			throw new Error(`Schema in the route "${obj.method}:${obj.path}" is incorrect.`);
+		}
+
 		if(Anotherback.snack.accesses[obj.access] === undefined){
 			throw new Error(`Route "${obj.method}:${obj.path}" uses access "${obj.access}" but it does not exist.`);
 		}
@@ -50,6 +55,33 @@ export default class Route{
 				}
 				return checkers;
 			})(),
+			schema: (() => {
+				const schema = {};
+
+				for(const loc of Object.keys(obj.schema)){
+					schema[loc] = [];
+
+					for(const [key, value] of Object.entries(obj.schema[loc])){
+						let s = value;
+						s = s.schema || s;
+	
+						if(Anotherback.snack.schemas[s] === undefined){
+							throw new Error(`Route "${obj.method}:${obj.path}" uses schema "${s}" to check ${loc} "${key}" but it does not exist.`);
+						}
+	
+						schema[loc].push({
+							pass: key.split("?")[0],
+							schema: key.endsWith("?") ? Anotherback.snack.schemas[s].schema : Anotherback.snack.schemas[s].schema.required(),
+							error: Anotherback.snack.schemas[s].error,
+							key: value.key || key.split("?")[0],
+						});
+					}
+				}
+
+				schema.keys = Object.keys(schema);
+
+				return schema;
+			})()
 		};
 
 		return fnc => {
@@ -65,6 +97,14 @@ export default class Route{
 							await params.regAccess.call(ctx.access, req);
 
 							await params.access.call(ctx.access, req);
+
+							for(const loc of params.schema.keys){
+								for(const obj of params.schema[loc]){
+									let result = obj.schema.validate(req[loc]?.[obj.key]);
+									if(result.error !== undefined)obj.error();
+									else ctx.pass.handler(obj.pass, result.value);
+								}
+							}
 
 							for(const checker of params.checkers){
 								await checker.fnc.call(ctx.checker, checker.launcher(req));
@@ -93,3 +133,24 @@ export default class Route{
 
 	static routes = [];
 }
+
+const joi_orObj = Joi
+.object({
+	schema: Joi.string().required(),
+	key: Joi.string().required()
+});
+
+const joi_items = Joi
+.object()
+.pattern(
+	/./,
+	Joi.alternatives().try(Joi.string(), joi_orObj),
+	{fallthrough: true}
+);
+
+const joi_schema = Joi
+.object({
+	params: joi_items,
+	body: joi_items,
+	query: joi_items,
+});
