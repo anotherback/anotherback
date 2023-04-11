@@ -10,7 +10,7 @@ import sender from "./launch/sender.js";
 import {Directories, Models, Files} from "../../directories.js";
 import Event, {Dir} from "./plugins.js";
 import error from "./launch/error.js";
-import schema from "./launch/schema.js";n
+import schema from "./launch/schema.js";
 
 const config = (await import("file://" + Files.config)).default;
 
