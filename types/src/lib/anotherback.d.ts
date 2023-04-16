@@ -10,6 +10,7 @@ type exactSchema = {
 	[key: string]: string | {
 		schema: string,
 		key: string,
+		checkers: Array<string>,
 	}
 }
 

@@ -63,6 +63,13 @@ export function checkUpstreamError(){
 		for(const loc of params.schema.keys){
 			for(const obj of params.schema[loc]){
 				pass.push(obj.pass);
+				for(const [key, {fnc}] of Object.entries(obj.checkers)){
+					pass = computePass(
+						fnc, 
+						pass, 
+						arg => console.error(`Checker ${parseInt(key) + 1} of the key "${obj.pass}" in schema of the route "${params.method}:${params.path}" fetches "${arg}" but it has never been passed before.`)
+					);
+				}
 			}
 		}
 
