@@ -58,7 +58,7 @@ export default class Route{
 			schema: (() => {
 				const schema = {};
 
-				for(const loc of Object.keys(obj.schema)){
+				for(const loc of Object.keys(obj.schema || {})){
 					schema[loc] = [];
 
 					for(const [key, value] of Object.entries(obj.schema[loc])){
