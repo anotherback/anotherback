@@ -1,6 +1,6 @@
 import env from "./env";
 
-declare class DefaultContext {
+export declare class DefaultContext {
 	sender(name: string, info?: string, data?: string): never;
 
 	method(name: string, ...args: any): any | Promise<any>;

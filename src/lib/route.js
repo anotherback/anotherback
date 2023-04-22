@@ -69,14 +69,14 @@ export default class Route{
 									else if(result.value !== undefined){
 										ctx.pass.handler(obj.pass, result.value);
 										for(const checker of obj.checkers){
-											await checker.fnc.call(ctx.checker, checker.launcher(req));
+											await checker.fnc.call(ctx.checker, checker.launcher(req, (key, value) => ctx.pass.handler(key, value)));
 										}
 									}
 								}
 							}
 
 							for(const checker of params.checkers){
-								await checker.fnc.call(ctx.checker, checker.launcher(req));
+								await checker.fnc.call(ctx.checker, checker.launcher(req, (key, value) => ctx.pass.handler(key, value)));
 							}
 
 							await fnc.call(ctx.request, req, res);

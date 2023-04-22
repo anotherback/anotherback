@@ -2,7 +2,7 @@ import { FastifyListenOptions, FastifyRequest, FastifyReply, HTTPMethods, Fastif
 import { FastifyInstance } from "fastify/types/instance"
 import { FastifyCookieOptions } from "@fastify/cookie";
 import { FastifyCorsOptions } from "@fastify/cors";
-import { AccessCtx, CheckerCtx, MethodCtx, RequestCtx } from "./ctx";
+import { AccessCtx, CheckerCtx, MethodCtx, RequestCtx, DefaultContext } from "./ctx";
 import Joi from "joi";
 
 
@@ -36,7 +36,7 @@ export interface registerDescribe {
 export type createAccessFnc = (this: AccessCtx, req: FastifyRequest) => void;
 
 export type createCheckerObj<R> = {
-	[key: string]: (req: FastifyRequest) => R;
+	[key: string]: (req: FastifyRequest, pass: DefaultContext["pass"]) => R;
 }
 export type createCheckerFnc<R> = (this: CheckerCtx, arg: R) => void;
 
@@ -50,7 +50,7 @@ export type createSenderFnc = (res: FastifyReply, info?: string, data?: any) => 
 
 export type createMethodFnc = (this: MethodCtx, ...args: any) => any | Promise<any>;
 
-export type schemaErrorFnc = (sender: CheckerCtx["sender"]) => void;
+export type schemaErrorFnc = (sender: DefaultContext["sender"]) => void;
 
 export default class Anotherback{
     static readonly app: FastifyInstance;
