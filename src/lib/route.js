@@ -35,53 +35,17 @@ export default class Route{
 			method: obj.method,
 			access: Anotherback.snack.accesses[obj.access],
 			regAccess: Anotherback.snack.accesses[obj.regAccess],
-			checkers: (() => {
-				const checkers = [];
-				for(const checker of obj.checkers){
-					let checkerName = checker.split("<")[0];
-					let ckeckerLauncher = checker.split("<")[1] || "default";
-
-					if(Anotherback.snack.checkers[checkerName] === undefined){
-						throw new Error(`Route "${obj.method}:${obj.path}" uses checker "${checkerName}" but it does not exist.`);
-					}
-					if(Anotherback.snack.checkers[checkerName].launchers[ckeckerLauncher] === undefined){
-						throw new Error(`Route "${obj.method}:${obj.path}" uses launcher "${ckeckerLauncher}" of checker "${checkerName}" but it does not exist.`);
-					}
-
-					checkers.push({
-						launcher: Anotherback.snack.checkers[checkerName].launchers[ckeckerLauncher],
-						fnc: Anotherback.snack.checkers[checkerName].fnc
-					});
-				}
-				return checkers;
-			})(),
-			schema: (() => {
-				const schema = {};
-
-				for(const loc of Object.keys(obj.schema)){
-					schema[loc] = [];
-
-					for(const [key, value] of Object.entries(obj.schema[loc])){
-						let s = value;
-						s = s.schema || s;
-	
-						if(Anotherback.snack.schemas[s] === undefined){
-							throw new Error(`Route "${obj.method}:${obj.path}" uses schema "${s}" to check ${loc} "${key}" but it does not exist.`);
-						}
-	
-						schema[loc].push({
-							pass: key.split("?")[0],
-							schema: key.endsWith("?") ? Anotherback.snack.schemas[s].schema : Anotherback.snack.schemas[s].schema.required(),
-							error: Anotherback.snack.schemas[s].error,
-							key: value.key || key.split("?")[0],
-						});
-					}
-				}
-
-				schema.keys = Object.keys(schema);
-
-				return schema;
-			})()
+			checkers: getChecker(obj.checkers, (checkerName, ckeckerLauncher) => {
+				if(ckeckerLauncher === undefined) throw new Error(`Route "${obj.method}:${obj.path}" uses checker "${checkerName}" but it does not exist.`);
+				else throw new Error(`Route "${obj.method}:${obj.path}" uses launcher "${ckeckerLauncher}" of checker "${checkerName}" but it does not exist.`);
+			}),
+			schema: getSchema(obj.schema, (schemaName, key, loc) => {
+				throw new Error(`Route "${obj.method}:${obj.path}" uses schema "${schemaName}" to check ${loc} "${key}" but it does not exist.`);
+			},
+			(checkerName, ckeckerLauncher) => {
+				if(ckeckerLauncher === undefined) throw new Error(`Route "${obj.method}:${obj.path}" uses checker "${checkerName}" but it does not exist.`);
+				else throw new Error(`Route "${obj.method}:${obj.path}" uses launcher "${ckeckerLauncher}" of checker "${checkerName}" but it does not exist.`);
+			})
 		};
 
 		return fnc => {
@@ -102,12 +66,17 @@ export default class Route{
 								for(const obj of params.schema[loc]){
 									let result = obj.schema.validate(req[loc]?.[obj.key]);
 									if(result.error !== undefined)obj.error();
-									else ctx.pass.handler(obj.pass, result.value);
+									else if(result.value !== undefined){
+										ctx.pass.handler(obj.pass, result.value);
+										for(const checker of obj.checkers){
+											await checker.fnc.call(ctx.checker, checker.launcher(req, (key, value) => ctx.pass.handler(key, value)));
+										}
+									}
 								}
 							}
 
 							for(const checker of params.checkers){
-								await checker.fnc.call(ctx.checker, checker.launcher(req));
+								await checker.fnc.call(ctx.checker, checker.launcher(req, (key, value) => ctx.pass.handler(key, value)));
 							}
 
 							await fnc.call(ctx.request, req, res);
@@ -134,10 +103,55 @@ export default class Route{
 	static routes = [];
 }
 
+function getChecker(checkersString, cb){
+	const checkers = [];
+	for(const checker of checkersString){
+		let checkerName = checker.split("<")[0];
+		let ckeckerLauncher = checker.split("<")[1] || "default";
+
+		if(Anotherback.snack.checkers[checkerName] === undefined)cb(checkerName);
+		if(Anotherback.snack.checkers[checkerName].launchers[ckeckerLauncher] === undefined)cb(checkerName, ckeckerLauncher);
+
+		checkers.push({
+			launcher: Anotherback.snack.checkers[checkerName].launchers[ckeckerLauncher],
+			fnc: Anotherback.snack.checkers[checkerName].fnc
+		});
+	}
+	return checkers;
+}
+
+function getSchema(schemaString, cb, ccb){
+	const schema = {};
+
+	for(const loc of Object.keys(schemaString || {})){
+		schema[loc] = [];
+
+		for(const [key, value] of Object.entries(schemaString[loc])){
+			let s = value;
+			s = s.schema || s;
+	
+			if(Anotherback.snack.schemas[s] === undefined)cb(s, key, loc);
+	
+			schema[loc].push({
+				pass: key.split("?")[0],
+				schema: key.endsWith("?") ? Anotherback.snack.schemas[s].schema : Anotherback.snack.schemas[s].schema.required(),
+				error: Anotherback.snack.schemas[s].error,
+				key: value.key || key.split("?")[0],
+				checkers: getChecker(value.checkers || [], ccb),
+			});
+		}
+	}
+
+	schema.keys = Object.keys(schema);
+
+	return schema;
+}
+
 const joi_orObj = Joi
 .object({
 	schema: Joi.string().required(),
-	key: Joi.string().required()
+	key: Joi.string().required(),
+	checkers: Joi.array().items(Joi.string())
 });
 
 const joi_items = Joi
