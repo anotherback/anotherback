@@ -63,7 +63,13 @@ export function checkUpstreamError(){
 		for(const loc of params.schema.keys){
 			for(const obj of params.schema[loc]){
 				pass.push(obj.pass);
-				for(const [key, {fnc}] of Object.entries(obj.checkers)){
+				for(const [key, {fnc, launcher}] of Object.entries(obj.checkers)){
+					pass = computePass(
+						launcher, 
+						pass, 
+						arg => console.error(`Launcher of checker ${parseInt(key) + 1} on the key "${obj.pass}" in schema of the route "${params.method}:${params.path}" fetches "${arg}" but it has never been passed before.`),
+						true
+					);
 					pass = computePass(
 						fnc, 
 						pass, 
@@ -73,7 +79,13 @@ export function checkUpstreamError(){
 			}
 		}
 
-		for(const [key, {fnc}] of Object.entries(params.checkers)){
+		for(const [key, {fnc, launcher}] of Object.entries(params.checkers)){
+			pass = computePass(
+				launcher, 
+				pass, 
+				arg => console.error(`Launcher of checker ${parseInt(key) + 1} of the route "${params.method}:${params.path}" fetches "${arg}" but it has never been passed before.`),
+				true
+			);
 			pass = computePass(
 				fnc, 
 				pass, 
@@ -89,7 +101,7 @@ export function checkUpstreamError(){
 	}
 }
 
-function computePass(fnc, pass, callback){
+function computePass(fnc, pass, callback, launcherPass){
 	deepSearch(
 		parse(
 			fnc.toString()
@@ -121,7 +133,13 @@ function computePass(fnc, pass, callback){
 							name: "otherAccess"
 						}
 					}
-				}
+				},
+				launcherPass ? {
+					callee: {
+						type: "Identifier", 
+						name: "pass"
+					}
+				} : undefined
 			],
 			ExpressionStatement: {}
 		},
@@ -134,7 +152,7 @@ function computePass(fnc, pass, callback){
 			
 			if(obj.type === "ExpressionStatement") return;
 			
-			const type = obj.callee.property.name;
+			const type = obj.callee.property?.name || obj.callee.name;
 			const args = obj.arguments;
 
 			if(type === "pass"){

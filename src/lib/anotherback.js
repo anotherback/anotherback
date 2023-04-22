@@ -43,7 +43,7 @@ export default class Anotherback{
 			error: () => fnc((index, info, data) => {
 				throw (
 					this.snack.senders[index]?.init(info, data) || 
-					new Sender(() => ({code: 400, info: "FIELD_ERROR"}))
+					new Sender(() => ({code: 400, info: "SCHEMA_ERROR"}))
 				);
 			}),
 		};
