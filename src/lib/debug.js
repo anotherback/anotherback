@@ -92,7 +92,7 @@ export function checkUpstreamError(){
 				arg => console.error(`Checker ${parseInt(key) + 1} of the route "${params.method}:${params.path}" fetches "${arg}" but it has never been passed before.`)
 			);
 		}
-
+		
 		pass = computePass(
 			fnc, 
 			pass, 
@@ -134,12 +134,14 @@ function computePass(fnc, pass, callback, launcherPass){
 						}
 					}
 				},
-				launcherPass ? {
-					callee: {
-						type: "Identifier", 
-						name: "pass"
+				...(launcherPass === true ? [
+					{
+						callee: {
+							type: "Identifier", 
+							name: "pass"
+						}
 					}
-				} : undefined
+				] : [])
 			],
 			ExpressionStatement: {}
 		},
