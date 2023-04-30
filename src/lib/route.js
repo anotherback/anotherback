@@ -150,7 +150,7 @@ function getSchema(schemaString, cb, ccb){
 const joi_orObj = Joi
 .object({
 	schema: Joi.string().required(),
-	key: Joi.string().required(),
+	key: Joi.string(),
 	checkers: Joi.array().items(Joi.string())
 });
 
