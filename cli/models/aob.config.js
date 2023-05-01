@@ -13,7 +13,7 @@ export default config(
 
 		},
 		prefix: "",
-		debug: false,
+		debug: true,
 		plugins: [],
 		fastifyRegister(fastReg){
 

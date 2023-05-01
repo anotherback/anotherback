@@ -17,8 +17,9 @@ type exactSchema = {
 interface requestDescribe {
     method: HTTPMethods,
     path: string,
+	access: string,
+	beforeCheckers: Array<string>,
     checkers: Array<string>,
-    access: string,
 	schema: {
 		params: exactSchema,
 		body: exactSchema,
