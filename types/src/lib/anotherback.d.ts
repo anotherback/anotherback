@@ -56,6 +56,11 @@ export type createMethodFnc = (this: MethodCtx, ...args: any) => any | Promise<a
 
 export type schemaErrorFnc = (sender: DefaultContext["sender"]) => void;
 
+export type debug = boolean | {
+	override: boolean;
+	upstream: boolean;
+}
+
 export default class Anotherback{
     static readonly app: FastifyInstance;
 
@@ -92,4 +97,6 @@ export default class Anotherback{
     static register(obj: registerDescribe, fnc: register): void;
 
     static fastifyRegister(fnc: fastifyRegister): void;
+
+	static debug: debug;
 }

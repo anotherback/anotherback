@@ -14,7 +14,10 @@ export default config(
 		},
 		registerParamsStatic: false,
 		prefix: "",
-		debug: true,
+		debug: {
+			upstream: true,
+			override: false
+		},
 		plugins: [],
 		fastifyRegister(fastReg){
 
