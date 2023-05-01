@@ -60,6 +60,20 @@ export function checkUpstreamError(){
 			}
 		);
 
+		for(const [key, {fnc, launcher}] of Object.entries(params.beforeCheckers)){
+			pass = computePass(
+				launcher, 
+				pass, 
+				arg => console.error(`Launcher of beforeChecker ${parseInt(key) + 1} of the route "${params.method}:${params.path}" fetches "${arg}" but it has never been passed before.`),
+				true
+			);
+			pass = computePass(
+				fnc, 
+				pass, 
+				arg => console.error(`BeforeChecker ${parseInt(key) + 1} of the route "${params.method}:${params.path}" fetches "${arg}" but it has never been passed before.`)
+			);
+		}
+
 		for(const loc of params.schema.keys){
 			for(const obj of params.schema[loc]){
 				pass.push(obj.pass);

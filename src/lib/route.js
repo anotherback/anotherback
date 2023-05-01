@@ -14,6 +14,7 @@ export default class Route{
 		obj.path = obj.path || "";
 		obj.path = pathCorrector(Anotherback.prefix, obj.ignoreRegisterPrefix === true ? "" : this.#options.prefix, obj.path);
 		obj.method = obj.method || "GET";
+		obj.beforeCheckers = obj.beforeCheckers || [];
 		obj.checkers = obj.checkers || [];
 		obj.access = obj.access || "";
 		obj.regAccess = obj.ignoreRegisterAccess === true ? "" : this.#options.access;
@@ -35,6 +36,10 @@ export default class Route{
 			method: obj.method,
 			access: Anotherback.snack.accesses[obj.access],
 			regAccess: Anotherback.snack.accesses[obj.regAccess],
+			beforeCheckers: getChecker(obj.beforeCheckers, (checkerName, ckeckerLauncher) => {
+				if(ckeckerLauncher === undefined) throw new Error(`Route "${obj.method}:${obj.path}" uses checker "${checkerName}" but it does not exist.`);
+				else throw new Error(`Route "${obj.method}:${obj.path}" uses launcher "${ckeckerLauncher}" of checker "${checkerName}" but it does not exist.`);
+			}),
 			checkers: getChecker(obj.checkers, (checkerName, ckeckerLauncher) => {
 				if(ckeckerLauncher === undefined) throw new Error(`Route "${obj.method}:${obj.path}" uses checker "${checkerName}" but it does not exist.`);
 				else throw new Error(`Route "${obj.method}:${obj.path}" uses launcher "${ckeckerLauncher}" of checker "${checkerName}" but it does not exist.`);
@@ -61,6 +66,10 @@ export default class Route{
 							await params.regAccess.call(ctx.access, req);
 
 							await params.access.call(ctx.access, req);
+							
+							for(const checker of params.beforeCheckers){
+								await checker.fnc.call(ctx.checker, checker.launcher(req, (key, value) => ctx.pass.handler(key, value)));
+							}
 
 							for(const loc of params.schema.keys){
 								for(const obj of params.schema[loc]){
