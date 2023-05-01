@@ -36,8 +36,8 @@ export function checkUpstreamError(){
 		checkMethodsOrSendersOrAccessUsed(fnc)
 		.forEach(([type, n, arg]) => {
 			if(type === "otherAccess") return;
-			else if(arg === undefined)console.error(`Route "${params.method}:${params.path}" uses ${type} "${n}" but it does not exist.`);
-			else console.error(`Route "${params.method}:${params.path}" calls method "${n}" with ${arg[1]} argument(s) but it needs ${arg[0]}.`);
+			else if(arg === undefined)console.error(`Handler of route "${params.method}:${params.path}" uses ${type} "${n}" but it does not exist.`);
+			else console.error(`Handler of route "${params.method}:${params.path}" calls method "${n}" with ${arg[1]} argument(s) but it needs ${arg[0]}.`);
 		});
 		
 		let pass = [];
@@ -110,7 +110,7 @@ export function checkUpstreamError(){
 		pass = computePass(
 			fnc, 
 			pass, 
-			arg => console.error(`Route "${params.method}:${params.path}" fetches "${arg}" but it has never been passed before.`)
+			arg => console.error(`Handler of route "${params.method}:${params.path}" fetches "${arg}" but it has never been passed before.`)
 		);
 	}
 }

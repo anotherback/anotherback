@@ -32,55 +32,27 @@ class child{
 	static process;
 }
 
-initDir();
+const DIRS =  [
+	"access",
+	"checker",
+	"register",
+	"method",
+	"sender",
+	"schema",
+	"handler"
+];
 
-new Watcher(Directories.access, {recursive: true, ignoreInitial: true})
-.on("add", path => {
-	if(
-		fs.readFileSync(path, "utf-8") === "" &&
-			path.endsWith(Files.extname.access)
-	)Models.rw.access = path;
-});
+initDir(DIRS);
 
-new Watcher(Directories.checker, {recursive: true, ignoreInitial: true})
-.on("add", path => {
-	if(
-		fs.readFileSync(path, "utf-8") === "" &&
-			path.endsWith(Files.extname.checker)
-	)Models.rw.checker = path;
-});
-
-new Watcher(Directories.register, {recursive: true, ignoreInitial: true})
-.on("add", path => {
-	if(
-		fs.readFileSync(path, "utf-8") === "" &&
-			path.endsWith(Files.extname.register)
-	)Models.rw.register = path;
-});
-
-new Watcher(Directories.method, {recursive: true, ignoreInitial: true})
-.on("add", path => {
-	if(
-		fs.readFileSync(path, "utf-8") === "" &&
-			path.endsWith(Files.extname.method)
-	)Models.rw.method = path;
-});
-
-new Watcher(Directories.sender, {recursive: true, ignoreInitial: true})
-.on("add", path => {
-	if(
-		fs.readFileSync(path, "utf-8") === "" &&
-			path.endsWith(Files.extname.sender)
-	)Models.rw.sender = path;
-});
-
-new Watcher(Directories.schema, {recursive: true, ignoreInitial: true})
-.on("add", path => {
-	if(
-		fs.readFileSync(path, "utf-8") === "" &&
-			path.endsWith(Files.extname.schema)
-	)Models.rw.schema = path;
-});
+for(const DIR of DIRS){
+	new Watcher(Directories[DIR], {recursive: true, ignoreInitial: true})
+	.on("add", path => {
+		if(
+			fs.readFileSync(path, "utf-8") === "" &&
+			path.endsWith(Files.extname[DIR])
+		)Models.rw[DIR] = path;
+	});
+}
 
 await Event.launch("initDir");
 

@@ -21,6 +21,8 @@ export class Models{
 
 	static schema: string;
 
+	static handler: string;
+
     static readonly config: string;
 }
 
@@ -50,6 +52,9 @@ export class Directories{
 
 	static readonly schema: string;
     static name_schema: string;
+
+	static readonly handler: string;
+    static name_handler: string;
 }
 
 export class Files{
@@ -80,4 +85,6 @@ declare class Extname{
 	static sender: string;
 
 	static schema: string;
+
+	static handler: string;
 }
