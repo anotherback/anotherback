@@ -12,6 +12,7 @@ export default config(
 		registerParamsCors: {
 
 		},
+		registerParamsStatic: false,
 		prefix: "",
 		debug: true,
 		plugins: [],

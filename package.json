@@ -16,6 +16,7 @@
   "dependencies": {
     "@fastify/cookie": "^8.3.0",
     "@fastify/cors": "^8.2.0",
+    "@fastify/static": "^6.10.1",
     "@typescript-eslint/typescript-estree": "^5.57.0",
     "dotenv": "^16.0.3",
     "fastify": "^4.11.0",

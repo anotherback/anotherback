@@ -2,6 +2,7 @@ import { FastifyListenOptions, FastifyRequest, FastifyReply, HTTPMethods, Fastif
 import { FastifyInstance } from "fastify/types/instance"
 import { FastifyCookieOptions } from "@fastify/cookie";
 import { FastifyCorsOptions } from "@fastify/cors";
+import {FastifyStaticOptions} from "@fastify/static";
 import { AccessCtx, CheckerCtx, MethodCtx, RequestCtx, DefaultContext } from "./ctx";
 import Joi from "joi";
 
@@ -9,24 +10,24 @@ import Joi from "joi";
 type exactSchema = {
 	[key: string]: string | {
 		schema: string,
-		key: string,
-		checkers: Array<string>,
+		key?: string,
+		checkers?: Array<string>,
 	}
 }
 
 interface requestDescribe {
-    method: HTTPMethods,
-    path: string,
-	access: string,
-	beforeCheckers: Array<string>,
-    checkers: Array<string>,
-	schema: {
-		params: exactSchema,
-		body: exactSchema,
-		query: exactSchema,
+    method?: HTTPMethods,
+    path?: string,
+	access?: string,
+	beforeCheckers?: Array<string>,
+    checkers?: Array<string>,
+	schema?: {
+		params?: exactSchema,
+		body?: exactSchema,
+		query?: exactSchema,
 	},
-    ignoreRegisterAccess: boolean,
-	ignoreRegisterPrefix: boolean,
+    ignoreRegisterAccess?: boolean,
+	ignoreRegisterPrefix?: boolean,
 }
 
 export interface registerDescribe {
@@ -67,6 +68,8 @@ export default class Anotherback{
     static registerParamsCookie: FastifyCookieOptions;
 
     static registerParamsCors: FastifyCorsOptions;
+
+	static registerParamsStatic: FastifyStaticOptions | boolean;
 
     static prefix: string;
 

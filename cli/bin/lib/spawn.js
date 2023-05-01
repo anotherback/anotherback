@@ -24,6 +24,7 @@ Anotherback.prefix = config.prefix;
 Anotherback.debug = config.debug;
 Anotherback.registerParamsCookie = config.registerParamsCookie;
 Anotherback.registerParamsCors = config.registerParamsCors;
+Anotherback.registerParamsStatic = config.registerParamsStatic;
 Anotherback.listenParams = config.listenParams;
 Anotherback.listenCallback(config.listenCallback);
 
