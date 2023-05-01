@@ -44,16 +44,24 @@ export default class Route{
 				if(ckeckerLauncher === undefined) throw new Error(`Route "${obj.method}:${obj.path}" uses checker "${checkerName}" but it does not exist.`);
 				else throw new Error(`Route "${obj.method}:${obj.path}" uses launcher "${ckeckerLauncher}" of checker "${checkerName}" but it does not exist.`);
 			}),
-			schema: getSchema(obj.schema, (schemaName, key, loc) => {
-				throw new Error(`Route "${obj.method}:${obj.path}" uses schema "${schemaName}" to check ${loc} "${key}" but it does not exist.`);
-			},
-			(checkerName, ckeckerLauncher) => {
-				if(ckeckerLauncher === undefined) throw new Error(`Route "${obj.method}:${obj.path}" uses checker "${checkerName}" but it does not exist.`);
-				else throw new Error(`Route "${obj.method}:${obj.path}" uses launcher "${ckeckerLauncher}" of checker "${checkerName}" but it does not exist.`);
-			})
+			schema: getSchema(
+				obj.schema, 
+				(schemaName, key, loc) => {
+					throw new Error(`Route "${obj.method}:${obj.path}" uses schema "${schemaName}" to check ${loc} "${key}" but it does not exist.`);
+				},
+				(checkerName, ckeckerLauncher) => {
+					if(ckeckerLauncher === undefined) throw new Error(`Route "${obj.method}:${obj.path}" uses checker "${checkerName}" but it does not exist.`);
+					else throw new Error(`Route "${obj.method}:${obj.path}" uses launcher "${ckeckerLauncher}" of checker "${checkerName}" but it does not exist.`);
+				}
+			)
 		};
 
 		return fnc => {
+			if(typeof fnc === "string"){
+				if(Anotherback.snack.handlers[fnc] === undefined) throw new Error(`Route "${obj.method}:${obj.path}" uses handler "${fnc}" but it does not exist.`);
+				fnc = Anotherback.snack.handlers[fnc];
+			}
+			
 			Route.routes.push([params, fnc]);
 			this.#app.route(
 				{

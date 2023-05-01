@@ -24,7 +24,11 @@ export default class Anotherback{
 
 		methods: {
 
-		}, 
+		},
+
+		handlers: {
+
+		},
 
 		senders: {
 
@@ -55,6 +59,10 @@ export default class Anotherback{
 
 	static createMethod(name, fnc){
 		this.snack.methods[name] = fnc;
+	}
+
+	static createHandler(name, fnc){
+		this.snack.handlers[name] = fnc;
 	}
 
 	static createSender(name, fnc){

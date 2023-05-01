@@ -22,6 +22,8 @@ export class Models{
 
 	static method = this.main + "/method.js";
 
+	static handler = this.main + "/handler.js";
+
 	static sender = this.main + "/sender.js";
 
 	static schema = this.main + "/schema.js";	
@@ -122,6 +124,17 @@ export class Models{
 				fs.writeFileSync(arg, this.method);
 			}
 
+			static get handler(){
+				return fs.readFileSync(Models.handler, "utf-8");
+			}
+			static set handler(arg){
+				try {
+					fs.mkdirSync(arg.split("/").slice(0, -1).join("/"), {recursive: true});
+				}
+				catch {}
+				fs.writeFileSync(arg, this.handler);
+			}
+
 			static get sender(){
 				return fs.readFileSync(Models.sender, "utf-8");
 			}
@@ -193,6 +206,11 @@ export class Directories{
 		return resolve(this.workdir, this.name_method);
 	}
 
+	static name_handler = "handler";
+	static get handler(){
+		return resolve(this.workdir, this.name_handler);
+	}
+
 	static name_sender = "sender";
 	static get sender(){
 		return resolve(this.workdir, this.name_sender);
@@ -240,6 +258,8 @@ class Extname{
 	static checker = ".js";
 
 	static method = ".js";
+
+	static handler = ".js";
 
 	static sender = ".js";
 

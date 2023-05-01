@@ -42,7 +42,9 @@ export type createCheckerObj<R> = {
 export type createCheckerFnc<R> = (this: CheckerCtx, arg: R) => void;
 
 export type register = (reg: reg, hook: FastifyInstance["addHook"]) => void;
-type reg = (obj: requestDescribe) => (fnc: (this: RequestCtx, req: FastifyRequest, res: FastifyReply) => void) => void;
+export type createHandlerFnc = (this: RequestCtx, req: FastifyRequest, res: FastifyReply) => void
+type reg = (obj: requestDescribe) => (fnc: createHandlerFnc | string) => void;
+
 
 export type fastifyRegister = (fastReg: FastifyRegister) => void;
 
@@ -77,6 +79,8 @@ export default class Anotherback{
 	static createSender(name: string, fnc: createSenderFnc): void;
 
 	static createMethod(name: string, fnc: createMethodFnc): void;
+
+	static createHandler(name: string, fnc: createHandlerFnc): void;
 	
 	static setNotFoundSender(fnc: createSenderFnc): void;
 

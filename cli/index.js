@@ -7,6 +7,7 @@ import registerOptions from "./lib/registerOptions.js";
 import method from "./lib/method.js";
 import sender from "./lib/sender.js";
 import schema from "./lib/schema.js";
+import handler from "./lib/handler.js";
 import {Directories, Models, Files} from "./directories.js";
 
 
@@ -20,6 +21,7 @@ export {
 	method,
 	sender,
 	schema,
+	handler,
 	Directories,
 	Models,
 	Files,

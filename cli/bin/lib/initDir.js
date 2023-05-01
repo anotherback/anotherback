@@ -9,7 +9,7 @@ function find(path, fnc){
 	}
 }
 
-export default function initDir(){
+export default function initDir(DIRS){
 	if(!fs.existsSync(Directories.workdir))fs.mkdirSync(Directories.workdir);
 	if(!fs.existsSync(Directories.import))fs.mkdirSync(Directories.import);
 	if(!fs.existsSync(Files.token))Models.rw.token = Files.token;
@@ -17,69 +17,16 @@ export default function initDir(){
 	if(!fs.existsSync(Files.error))Models.rw.error = Files.error;
 	if(!fs.existsSync(Files.env))Models.rw.env = Files.env;
 
-	if(!fs.existsSync(Directories.access))fs.mkdirSync(Directories.access);
-	find(
-		Directories.access,
-		path => {
-			if(
-				fs.readFileSync(path, "utf-8") === "" &&
-				path.endsWith(Files.extname.access)
-			)Models.rw.access = path;
-		}
-	);
-
-	if(!fs.existsSync(Directories.checker))fs.mkdirSync(Directories.checker);
-	find(
-		Directories.checker,
-		path => {
-			if(
-				fs.readFileSync(path, "utf-8") === "" &&
-				path.endsWith(Files.extname.checker)
-			)Models.rw.checker = path;
-		}
-	);
-
-	if(!fs.existsSync(Directories.register))fs.mkdirSync(Directories.register);
-	find(
-		Directories.register,
-		path => {
-			if(
-				fs.readFileSync(path, "utf-8") === "" &&
-				path.endsWith(Files.extname.register)
-			)Models.rw.register = path;
-		}
-	);
-
-	if(!fs.existsSync(Directories.method))fs.mkdirSync(Directories.method);
-	find(
-		Directories.method,
-		path => {
-			if(
-				fs.readFileSync(path, "utf-8") === "" &&
-				path.endsWith(Files.extname.method)
-			)Models.rw.method = path;
-		}
-	);
-
-	if(!fs.existsSync(Directories.sender))fs.mkdirSync(Directories.sender);
-	find(
-		Directories.sender,
-		path => {
-			if(
-				fs.readFileSync(path, "utf-8") === "" &&
-				path.endsWith(Files.extname.sender)
-			)Models.rw.sender = path;
-		}
-	);
-
-	if(!fs.existsSync(Directories.schema))fs.mkdirSync(Directories.schema);
-	find(
-		Directories.schema,
-		path => {
-			if(
-				fs.readFileSync(path, "utf-8") === "" &&
-				path.endsWith(Files.extname.schema)
-			)Models.rw.schema = path;
-		}
-	);
+	for(const DIR of DIRS){
+		if(!fs.existsSync(Directories[DIR]))fs.mkdirSync(Directories[DIR]);
+		find(
+			Directories[DIR],
+			path => {
+				if(
+					fs.readFileSync(path, "utf-8") === "" &&
+					path.endsWith(Files.extname[DIR])
+				)Models.rw[DIR] = path;
+			}
+		);
+	}
 }
