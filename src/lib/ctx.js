@@ -189,6 +189,11 @@ function defaultConfig(context){
 		(index, ...args) => Anotherback.snack.methods[index].call(methodCtx, ...args)
 	);
 
+	context.addProperty(
+		"schema",
+		(index, value) => Anotherback.snack.schemas[index].schema.validate(value)
+	);
+
 	context.addGetter(
 		"token",
 		function(){
