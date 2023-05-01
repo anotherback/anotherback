@@ -69,7 +69,8 @@ new Watcher(
 				typeof config.registerParamsStatic === "object" && 
 				config.registerParamsStatic.root !== undefined &&
 				path.startsWith(resolve(config.registerParamsStatic.root)) === true
-			)
+			) ||
+			path.endsWith("debug.txt")
 	}
 )
 .on("change", () => child.restart())

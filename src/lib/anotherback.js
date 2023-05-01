@@ -4,9 +4,10 @@ import cors from "@fastify/cors";
 import sttc from "@fastify/static";
 import Route from "./route.js";
 import Sender from "./sender.js";
-import {checkUpstreamError} from "./debug.js";
 import pathCorrector from "./pathCorrector.js";
 import {resolve} from "path";
+import {override} from "./debug/override.js";
+import {checkUpstreamError} from "./debug/upstream.js";
 
 export default class Anotherback{
 	static app = undefined;
@@ -108,6 +109,8 @@ export default class Anotherback{
 			}
 		});
 
+		if(this.debug === true || (typeof this.debug === "object" && this.debug.override === true))override();
+
 		await this.app.register(cookie, {hook: "onRequest", ...this.#registerParamsCookie});
 
 		await this.app.register(cors, {credentials: true, ...this.#registerParamsCors, exposedHeaders: ["aob-info", ...(this.#registerParamsCors.exposedHeaders || [])]});
@@ -116,7 +119,7 @@ export default class Anotherback{
 
 		for(const reg of this.snack.register) await this.app.register(reg);
 		
-		if(this.debug === true)checkUpstreamError();
+		if(this.debug === true || (typeof this.debug === "object" && this.debug.upstream === true))checkUpstreamError();
 
 		this.app.listen({port: 80, ...this.#listenParams}, this.#listenCallback);
 	}
@@ -161,7 +164,7 @@ export default class Anotherback{
 	}
 	static set registerParamsStatic(arg){
 		if(arg === true) arg = {root: "public", prefix: "public"};
-		if(typeof arg !== "object" && arg !== false) throw new Error("RegisterParamsStatic must be an object or false.");
+		if(typeof arg !== "object" && arg !== false) throw new Error("RegisterParamsStatic must be an object or boolean.");
 		if(typeof arg === "object" && (arg.prefix === undefined || arg.root === undefined)) throw new Error("RegisterParamsStatic must have the properties prefix and root");
 		this.#registerParamsStatic = arg;
 	}
@@ -172,5 +175,12 @@ export default class Anotherback{
 
 	static prefix = "";
 
-	static debug = false;
+	static #debug = false;
+	static get debug(){
+		return this.#debug;
+	}
+	static set debug(arg){
+		if(typeof arg !== "object" && typeof arg !== "boolean") throw new Error("debug must be an object or boolean.");
+		this.#debug = arg;
+	}
 }

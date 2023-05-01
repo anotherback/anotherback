@@ -1,6 +1,6 @@
 
-import Anotherback from "./anotherback.js";
-import Route from "./route.js";
+import Anotherback from "../anotherback.js";
+import Route from "../route.js";
 import {parse} from "@typescript-eslint/typescript-estree";
 
 export function checkUpstreamError(){
