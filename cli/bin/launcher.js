@@ -6,6 +6,7 @@ import fs from "fs";
 import {dirname, resolve} from "path";
 import {fileURLToPath} from "url";
 import Event, {Dir} from "./lib/plugins.js";
+const config = (await import("file://" + Files.config)).default;
 
 await Event.launch("start", Directories, Models, Dir, Files);
 
@@ -63,7 +64,12 @@ new Watcher(
 		ignoreInitial: true,
 		ignore: path =>
 			path.indexOf("node_modules") > -1 ||
-            path.indexOf("package-lock.json") > -1
+            path.indexOf("package-lock.json") > -1 ||
+			(
+				typeof config.registerParamsStatic === "object" && 
+				config.registerParamsStatic.root !== undefined &&
+				path.startsWith(resolve(config.registerParamsStatic.root)) === true
+			)
 	}
 )
 .on("change", () => child.restart())
