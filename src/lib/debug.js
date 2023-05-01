@@ -25,7 +25,7 @@ export function checkUpstreamError(){
 	for(const name in Anotherback.snack.methods){
 		checkMethodsOrSendersOrAccessUsed(Anotherback.snack.methods[name])
 		.forEach(([type, n, arg]) => {
-			if(type === "otherAccess") return;
+			if(type === "otherAccess" || type === "sender" || type === "schema") return;
 			else if(arg === undefined)console.error(`Method "${name}" uses method "${n}" but it does not exist.`);
 			else console.error(`Method "${name}" calls method "${n}" with ${arg[1]} argument(s) but it needs ${arg[0]}.`);
 		});
@@ -242,6 +242,18 @@ function checkMethodsOrSendersOrAccessUsed(fnc){
 						},
 						property: {
 							type: "Identifier",
+							name: "schema"
+						}
+					}
+				},
+				{
+					callee: {
+						type: "MemberExpression",
+						object: {
+							type: "ThisExpression"
+						},
+						property: {
+							type: "Identifier",
 							name: "otherAccess"
 						}
 					}
@@ -264,6 +276,9 @@ function checkMethodsOrSendersOrAccessUsed(fnc){
 						args.length - 1
 					]
 				]);
+			}
+			else if(type === "schema"){
+				if(Anotherback.snack.schemas[name] === undefined)notExist.push(["schema", name]);
 			}
 			else if(type === "sender"){
 				if(Anotherback.snack.senders[name] === undefined)notExist.push(["sender", name]);
