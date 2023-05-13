@@ -7,6 +7,7 @@ import registerOptions from "./lib/registerOptions";
 import method from "./lib/method";
 import sender from "./lib/sender";
 import schema from "./lib/schema";
+import handler from "./lib/handler";
 import { Directories, Models, Files } from "./directories";
 
 export {
@@ -19,6 +20,7 @@ export {
     method,
     sender,
 	schema,
+	handler,
     Directories, 
     Models, 
     Files

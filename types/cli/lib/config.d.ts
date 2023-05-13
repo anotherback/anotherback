@@ -1,14 +1,16 @@
 import { FastifyListenOptions } from "fastify";
 import { FastifyCookieOptions } from "@fastify/cookie";
 import { FastifyCorsOptions } from "@fastify/cors";
-import { fastifyRegister } from "../../src/lib/anotherback";
+import { FastifyStaticOptions } from "@fastify/static";
+import { debug, fastifyRegister } from "../../src/lib/anotherback";
 
 interface configAnotherback {
     listenParams?: FastifyListenOptions;
     registerParamsCookie?: FastifyCookieOptions;
     registerParamsCors?: FastifyCorsOptions;
+	registerParamsStatic?: FastifyStaticOptions | boolean;
     prefix?: string;
-	debug?: boolean;
+	debug?: debug;
     plugins?: Array<AnotherbackPlugin>;
     fastifyRegister?: fastifyRegister;
     listenCallback?(err: Error | null, address: string): void;

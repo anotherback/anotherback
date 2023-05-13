@@ -1,9 +1,13 @@
 import fastify from "fastify";
 import cookie from "@fastify/cookie";
 import cors from "@fastify/cors";
+import sttc from "@fastify/static";
 import Route from "./route.js";
 import Sender from "./sender.js";
-import {checkUpstreamError} from "./debug.js";
+import pathCorrector from "./pathCorrector.js";
+import {resolve} from "path";
+import {override} from "./debug/override.js";
+import {checkUpstreamError} from "./debug/upstream.js";
 
 export default class Anotherback{
 	static app = undefined;
@@ -24,7 +28,11 @@ export default class Anotherback{
 
 		methods: {
 
-		}, 
+		},
+
+		handlers: {
+
+		},
 
 		senders: {
 
@@ -55,6 +63,10 @@ export default class Anotherback{
 
 	static createMethod(name, fnc){
 		this.snack.methods[name] = fnc;
+	}
+
+	static createHandler(name, fnc){
+		this.snack.handlers[name] = fnc;
 	}
 
 	static createSender(name, fnc){
@@ -97,13 +109,17 @@ export default class Anotherback{
 			}
 		});
 
+		if(this.debug === true || (typeof this.debug === "object" && this.debug.override === true))override();
+
 		await this.app.register(cookie, {hook: "onRequest", ...this.#registerParamsCookie});
 
 		await this.app.register(cors, {credentials: true, ...this.#registerParamsCors, exposedHeaders: ["aob-info", ...(this.#registerParamsCors.exposedHeaders || [])]});
 
+		if(this.#registerParamsStatic !== false) await this.app.register(sttc, {...this.#registerParamsStatic, prefix: pathCorrector(this.prefix, this.#registerParamsStatic.prefix), root: resolve(this.#registerParamsStatic.root)});
+
 		for(const reg of this.snack.register) await this.app.register(reg);
 		
-		if(this.debug === true)checkUpstreamError();
+		if(this.debug === true || (typeof this.debug === "object" && this.debug.upstream === true))checkUpstreamError();
 
 		this.app.listen({port: 80, ...this.#listenParams}, this.#listenCallback);
 	}
@@ -113,14 +129,14 @@ export default class Anotherback{
 		return this.#listenParams;
 	}
 	static set listenParams(arg){
-		if(typeof arg !== "object") throw new Error("");
+		if(typeof arg !== "object") throw new Error("ListenParams must be an object.");
 		this.#listenParams = arg;
 	}
 	static #listenCallback = () => {
 		console.log("ready");
 	};
 	static listenCallback(fnc){
-		if(typeof fnc !== "function") throw new Error("");
+		if(typeof fnc !== "function") throw new Error("ListenCallback must be a function.");
 		this.#listenCallback = fnc;
 	}
 
@@ -129,7 +145,7 @@ export default class Anotherback{
 		return this.#registerParamsCookie;
 	}
 	static set registerParamsCookie(arg){
-		if(typeof arg !== "object") throw new Error("");
+		if(typeof arg !== "object") throw new Error("RegisterParamsCookie must be an object.");
 		this.#registerParamsCookie = arg;
 	}
 
@@ -138,8 +154,19 @@ export default class Anotherback{
 		return this.#registerParamsCors;
 	}
 	static set registerParamsCors(arg){
-		if(typeof arg !== "object") throw new Error("");
+		if(typeof arg !== "object") throw new Error("RegisterParamsCors must be an object.");
 		this.#registerParamsCors = arg;
+	}
+
+	static #registerParamsStatic = false;
+	static get registerParamsStatic(){
+		return this.#registerParamsStatic;
+	}
+	static set registerParamsStatic(arg){
+		if(arg === true) arg = {root: "public", prefix: "public"};
+		if(typeof arg !== "object" && arg !== false) throw new Error("RegisterParamsStatic must be an object or boolean.");
+		if(typeof arg === "object" && (arg.prefix === undefined || arg.root === undefined)) throw new Error("RegisterParamsStatic must have the properties prefix and root");
+		this.#registerParamsStatic = arg;
 	}
 
 	static async fastifyRegister(fnc){
@@ -148,5 +175,12 @@ export default class Anotherback{
 
 	static prefix = "";
 
-	static debug = false;
+	static #debug = false;
+	static get debug(){
+		return this.#debug;
+	}
+	static set debug(arg){
+		if(typeof arg !== "object" && typeof arg !== "boolean") throw new Error("debug must be an object or boolean.");
+		this.#debug = arg;
+	}
 }

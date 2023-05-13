@@ -6,7 +6,7 @@ import Joi from "joi";
 
 export default class Route{
 	constructor(app, options){
-		this.#app = app;
+		this.app = app;
 		this.#options = options || this.#options;
 	}
 
@@ -14,6 +14,7 @@ export default class Route{
 		obj.path = obj.path || "";
 		obj.path = pathCorrector(Anotherback.prefix, obj.ignoreRegisterPrefix === true ? "" : this.#options.prefix, obj.path);
 		obj.method = obj.method || "GET";
+		obj.beforeCheckers = obj.beforeCheckers || [];
 		obj.checkers = obj.checkers || [];
 		obj.access = obj.access || "";
 		obj.regAccess = obj.ignoreRegisterAccess === true ? "" : this.#options.access;
@@ -35,62 +36,82 @@ export default class Route{
 			method: obj.method,
 			access: Anotherback.snack.accesses[obj.access],
 			regAccess: Anotherback.snack.accesses[obj.regAccess],
+			beforeCheckers: getChecker(obj.beforeCheckers, (checkerName, ckeckerLauncher) => {
+				if(ckeckerLauncher === undefined) throw new Error(`Route "${obj.method}:${obj.path}" uses checker "${checkerName}" but it does not exist.`);
+				else throw new Error(`Route "${obj.method}:${obj.path}" uses launcher "${ckeckerLauncher}" of checker "${checkerName}" but it does not exist.`);
+			}),
 			checkers: getChecker(obj.checkers, (checkerName, ckeckerLauncher) => {
 				if(ckeckerLauncher === undefined) throw new Error(`Route "${obj.method}:${obj.path}" uses checker "${checkerName}" but it does not exist.`);
 				else throw new Error(`Route "${obj.method}:${obj.path}" uses launcher "${ckeckerLauncher}" of checker "${checkerName}" but it does not exist.`);
 			}),
-			schema: getSchema(obj.schema, (schemaName, key, loc) => {
-				throw new Error(`Route "${obj.method}:${obj.path}" uses schema "${schemaName}" to check ${loc} "${key}" but it does not exist.`);
-			},
-			(checkerName, ckeckerLauncher) => {
-				if(ckeckerLauncher === undefined) throw new Error(`Route "${obj.method}:${obj.path}" uses checker "${checkerName}" but it does not exist.`);
-				else throw new Error(`Route "${obj.method}:${obj.path}" uses launcher "${ckeckerLauncher}" of checker "${checkerName}" but it does not exist.`);
-			})
+			schema: getSchema(
+				obj.schema, 
+				(schemaName, key, loc) => {
+					throw new Error(`Route "${obj.method}:${obj.path}" uses schema "${schemaName}" to check ${loc} "${key}" but it does not exist.`);
+				},
+				(checkerName, ckeckerLauncher) => {
+					if(ckeckerLauncher === undefined) throw new Error(`Route "${obj.method}:${obj.path}" uses checker "${checkerName}" but it does not exist.`);
+					else throw new Error(`Route "${obj.method}:${obj.path}" uses launcher "${ckeckerLauncher}" of checker "${checkerName}" but it does not exist.`);
+				}
+			)
 		};
 
 		return fnc => {
-			Route.routes.push([params, fnc]);
-			this.#app.route(
-				{
-					url: params.path,
-					method: params.method,
-					async handler(req, res){
-						const ctx = new Ctx(req, res);
+			if(typeof fnc === "string"){
+				if(Anotherback.snack.handlers[fnc] === undefined) throw new Error(`Route "${obj.method}:${obj.path}" uses handler "${fnc}" but it does not exist.`);
+				fnc = Anotherback.snack.handlers[fnc];
+			}
+			
+			Route.routes.push([params, fnc, obj]);
+			this.handler(fnc, params, obj);
+		};
+	}
 
-						try {
-							await params.regAccess.call(ctx.access, req);
+	handler(fnc, params, obj){
+		this.app.route(
+			{
+				url: params.path,
+				method: params.method,
+				async handler(req, res){
+					const ctx = new Ctx(req, res);
 
-							await params.access.call(ctx.access, req);
+					try {
+						await params.regAccess.call(ctx.access, req);
 
-							for(const loc of params.schema.keys){
-								for(const obj of params.schema[loc]){
-									let result = obj.schema.validate(req[loc]?.[obj.key]);
-									if(result.error !== undefined)obj.error();
-									else if(result.value !== undefined){
-										ctx.pass.handler(obj.pass, result.value);
-										for(const checker of obj.checkers){
-											await checker.fnc.call(ctx.checker, checker.launcher(req, (key, value) => ctx.pass.handler(key, value)));
-										}
+						await params.access.call(ctx.access, req);
+						
+						for(const checker of params.beforeCheckers){
+							await checker.fnc.call(ctx.checker, checker.launcher(req, (key, value) => ctx.pass.handler(key, value)));
+						}
+
+						for(const loc of params.schema.keys){
+							for(const obj of params.schema[loc]){
+								let result = obj.schema.validate(req[loc]?.[obj.key]);
+								if(result.error !== undefined)obj.error();
+								else if(result.value !== undefined){
+									ctx.pass.handler(obj.pass, result.value);
+									for(const checker of obj.checkers){
+										await checker.fnc.call(ctx.checker, checker.launcher(req, (key, value) => ctx.pass.handler(key, value)));
 									}
 								}
 							}
-
-							for(const checker of params.checkers){
-								await checker.fnc.call(ctx.checker, checker.launcher(req, (key, value) => ctx.pass.handler(key, value)));
-							}
-
-							await fnc.call(ctx.request, req, res);
-
-							throw new Sender();
 						}
-						catch (error){
-							if(error instanceof Sender) await error.exec(res);
-							else this.errorHandler(error, req, res);
+
+						for(const checker of params.checkers){
+							await checker.fnc.call(ctx.checker, checker.launcher(req, (key, value) => ctx.pass.handler(key, value)));
 						}
+
+						await fnc.call(ctx.request, req, res);
+
+						throw new Sender();
+					}
+					catch (error){
+						if(error instanceof Sender) await error.exec(res);
+						else this.errorHandler(error, req, res);
 					}
 				}
-			);
-		};
+			}
+		);
 	}
 
 	#options = {
@@ -98,7 +119,7 @@ export default class Route{
 		prefix: "",
 	};
 
-	#app = undefined;
+	app = undefined;
 
 	static routes = [];
 }
@@ -150,7 +171,7 @@ function getSchema(schemaString, cb, ccb){
 const joi_orObj = Joi
 .object({
 	schema: Joi.string().required(),
-	key: Joi.string().required(),
+	key: Joi.string(),
 	checkers: Joi.array().items(Joi.string())
 });
 

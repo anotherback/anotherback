@@ -141,7 +141,7 @@ export class RequestCtx{
 	}
 }
 
-const methodCtx = {
+export const methodCtx = {
 	method: (index, ...args) => Anotherback.snack.methods[index].call(methodCtx, ...args)
 };
 
@@ -189,6 +189,11 @@ function defaultConfig(context){
 		(index, ...args) => Anotherback.snack.methods[index].call(methodCtx, ...args)
 	);
 
+	context.addProperty(
+		"schema",
+		(index, value) => Anotherback.snack.schemas[index].schema.validate(value)
+	);
+
 	context.addGetter(
 		"token",
 		function(){
@@ -207,13 +212,13 @@ function defaultConfig(context){
 					return Token.read(this.req.cookies[nameKey], nameKey);
 				},
 				refresh: (nameKey) => {
-					if(!this.req.cookies[nameKey]) throw new Error("");
+					if(!this.req.cookies[nameKey]) return false;
 					let token = Token.refresh(this.req.cookies[nameKey], nameKey);
 					this.res.setCookie(nameKey, token, Keys.get(nameKey).options.cookie);
 					this.req.cookies[nameKey] = token;
 				},
 				delete: (nameKey) => {
-					if(!this.req.cookies[nameKey]) throw new Error("");
+					if(!this.req.cookies[nameKey]) return false;
 					this.res.clearCookie(nameKey);
 					delete this.req.cookies[nameKey];
 				}

@@ -1,7 +1,10 @@
+import Joi from "joi";
 import env from "./env";
 
 export declare class DefaultContext {
 	sender(name: string, info?: string, data?: string): never;
+
+	schema(name: string, value: any): Joi.ValidationResult<>;
 
 	method(name: string, ...args: any): any | Promise<any>;
 
@@ -9,8 +12,8 @@ export declare class DefaultContext {
         generate(nameKey: string, info: object): void;
         verify(nameKey: string): object | false | null;
         read(nameKey: string): object | null;
-        refresh(nameKey: string): void;
-        delete(nameKey: string): void;
+        refresh(nameKey: string): undefined | false;
+        delete(nameKey: string): undefined | false;
     }
 
 	pass(key: string | object | undefined, value: any): any;

@@ -12,8 +12,12 @@ export default config(
 		registerParamsCors: {
 
 		},
+		registerParamsStatic: false,
 		prefix: "",
-		debug: false,
+		debug: {
+			upstream: true,
+			override: false
+		},
 		plugins: [],
 		fastifyRegister(fastReg){
 

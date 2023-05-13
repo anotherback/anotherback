@@ -2,6 +2,7 @@ import { FastifyListenOptions, FastifyRequest, FastifyReply, HTTPMethods, Fastif
 import { FastifyInstance } from "fastify/types/instance"
 import { FastifyCookieOptions } from "@fastify/cookie";
 import { FastifyCorsOptions } from "@fastify/cors";
+import {FastifyStaticOptions} from "@fastify/static";
 import { AccessCtx, CheckerCtx, MethodCtx, RequestCtx, DefaultContext } from "./ctx";
 import Joi from "joi";
 
@@ -9,23 +10,24 @@ import Joi from "joi";
 type exactSchema = {
 	[key: string]: string | {
 		schema: string,
-		key: string,
-		checkers: Array<string>,
+		key?: string,
+		checkers?: Array<string>,
 	}
 }
 
 interface requestDescribe {
-    method: HTTPMethods,
-    path: string,
-    checkers: Array<string>,
-    access: string,
-	schema: {
-		params: exactSchema,
-		body: exactSchema,
-		query: exactSchema,
+    method?: HTTPMethods,
+    path?: string,
+	access?: string,
+	beforeCheckers?: Array<string>,
+    checkers?: Array<string>,
+	schema?: {
+		params?: exactSchema,
+		body?: exactSchema,
+		query?: exactSchema,
 	},
-    ignoreRegisterAccess: boolean,
-	ignoreRegisterPrefix: boolean,
+    ignoreRegisterAccess?: boolean,
+	ignoreRegisterPrefix?: boolean,
 }
 
 export interface registerDescribe {
@@ -41,7 +43,9 @@ export type createCheckerObj<R> = {
 export type createCheckerFnc<R> = (this: CheckerCtx, arg: R) => void;
 
 export type register = (reg: reg, hook: FastifyInstance["addHook"]) => void;
-type reg = (obj: requestDescribe) => (fnc: (this: RequestCtx, req: FastifyRequest, res: FastifyReply) => void) => void;
+export type createHandlerFnc = (this: RequestCtx, req: FastifyRequest, res: FastifyReply) => void
+type reg = (obj: requestDescribe) => (fnc: createHandlerFnc | string) => void;
+
 
 export type fastifyRegister = (fastReg: FastifyRegister) => void;
 
@@ -51,6 +55,11 @@ export type createSenderFnc = (res: FastifyReply, info?: string, data?: any) => 
 export type createMethodFnc = (this: MethodCtx, ...args: any) => any | Promise<any>;
 
 export type schemaErrorFnc = (sender: DefaultContext["sender"]) => void;
+
+export type debug = boolean | {
+	override: boolean;
+	upstream: boolean;
+}
 
 export default class Anotherback{
     static readonly app: FastifyInstance;
@@ -65,6 +74,8 @@ export default class Anotherback{
 
     static registerParamsCors: FastifyCorsOptions;
 
+	static registerParamsStatic: FastifyStaticOptions | boolean;
+
     static prefix: string;
 
 	static createAccess(name: string, fnc: createAccessFnc): void;
@@ -76,6 +87,8 @@ export default class Anotherback{
 	static createSender(name: string, fnc: createSenderFnc): void;
 
 	static createMethod(name: string, fnc: createMethodFnc): void;
+
+	static createHandler(name: string, fnc: createHandlerFnc): void;
 	
 	static setNotFoundSender(fnc: createSenderFnc): void;
 
@@ -84,4 +97,6 @@ export default class Anotherback{
     static register(obj: registerDescribe, fnc: register): void;
 
     static fastifyRegister(fnc: fastifyRegister): void;
+
+	static debug: debug;
 }
