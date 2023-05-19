@@ -6,7 +6,7 @@ import {dirname, resolve} from "path";
 import {fileURLToPath} from "url";
 
 if(!fs.existsSync(Files.config))Models.rw.config = Files.config;
-const config = (await import("file://" + Files.config)).default;
+const config = (await import("file://" + Files.config)).default[0];
 if(config.registerParamsStatic === true)config.registerParamsStatic = {root: "public", prefix: "public"};
 
 await import("file://" + resolve(dirname(fileURLToPath(import.meta.url))) + "/launcher.js");

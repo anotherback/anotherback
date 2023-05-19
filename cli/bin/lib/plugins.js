@@ -2,7 +2,7 @@ import {Directories, Files} from "../../directories.js";
 import {resolve} from "path";
 import fs from "fs";
 import Watcher from "watcher";
-const config = (await import("file://" + Files.config)).default;
+const config = (await import("file://" + Files.config)).default[0];
 
 export class Dir{
 	constructor(path = "./"){

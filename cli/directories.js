@@ -30,6 +30,8 @@ export class Models{
 
 	static env = this.main + "/.env";
 
+	static eslintrc = this.main + "/.eslintrc.json";
+
 	static get config(){
 		return this.main + "/aob.config.js";
 	}
@@ -167,6 +169,17 @@ export class Models{
 				catch {}
 				fs.writeFileSync(arg, this.env);
 			}
+			
+			static get eslintrc(){
+				return fs.readFileSync(Models.eslintrc, "utf-8");
+			}
+			static set eslintrc(arg){
+				try {
+					fs.mkdirSync(arg.split("/").slice(0, -1).join("/"), {recursive: true});
+				}
+				catch {}
+				fs.writeFileSync(arg, this.eslintrc);
+			}
 		};
 	}
 }
@@ -241,6 +254,10 @@ export class Files{
 
 	static get env(){
 		return resolve(Directories.main, ".env");
+	}
+
+	static get eslintrc(){
+		return resolve(Directories.main, ".eslintrc.json");
 	}
 
 	static get extname(){
