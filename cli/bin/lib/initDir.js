@@ -8,8 +8,6 @@ const configCli = (await import("file://" + Files.config)).default[1] || {linter
 const linter = new Linter();
 let linterConfig = JSON.parse(fs.readFileSync(Files.eslintrc));
 
-const config = (await import("file://" + Files.config)).default;
-
 function find(path, fnc){
 	for(const file of fs.readdirSync(path)){
 		if(fs.lstatSync(resolve(path, file)).isDirectory())find(resolve(path, file), fnc);
