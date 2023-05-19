@@ -22,7 +22,8 @@
     "fastify": "^4.11.0",
     "joi": "^17.9.1",
     "jsonwebtoken": "^9.0.0",
-    "watcher": "^2.2.0"
+    "watcher": "^2.2.0",
+	"eslint": "^8.33.0"
   },
   "exports": {
     ".": {
@@ -41,8 +42,5 @@
   },
   "bin": {
     "aob": "./cli/bin/index.js"
-  },
-  "devDependencies": {
-    "eslint": "^8.33.0"
   }
 }

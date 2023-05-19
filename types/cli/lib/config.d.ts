@@ -16,4 +16,9 @@ interface configAnotherback {
     listenCallback?(err: Error | null, address: string): void;
 }
 
-export default function config(obj: configAnotherback): void;
+interface configAnotherbackCli {
+    linter: boolean;
+	hotReload: boolean;
+}
+
+export default function config(config: configAnotherback, configCli: configAnotherbackCli | false): void;
