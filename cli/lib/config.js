@@ -1,3 +1,3 @@
-export default function config(obj){
-	return obj;
+export default function config(config, configCli){
+	return [config, configCli];
 }

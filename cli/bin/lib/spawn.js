@@ -13,7 +13,7 @@ import error from "./launch/error.js";
 import schema from "./launch/schema.js";
 import handler from "./launch/handler.js";
 
-const config = (await import("file://" + Files.config)).default;
+const config = (await import("file://" + Files.config)).default[0];
 
 await Event.launch("start", Directories, Models, Dir, Files);
 await Event.launch("beforeRegister", Anotherback.app);
